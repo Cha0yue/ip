@@ -2,7 +2,7 @@
  * Entry point for the Ekud chatbot.
  * On startup it greets the user, then exits with a goodbye message.
  */
-public class Duke {
+public class Ekud {
     private static final String DIVIDER = "____________________________________________________________";
     private static final String NAME = "Ekud";
     // Credits: https://patorjk.com/software/taag/#p=testall&f=Alpha&t=EKUD&x=none&v=4&h=4&w=80&we=false
