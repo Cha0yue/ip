@@ -37,7 +37,7 @@ public class Ui {
         System.out.println("Hello! I'm " + NAME + ".");
         printStartupJoke();
         System.out.println();
-        System.out.println("Type a task to add it, list to see your tasks, or bye to exit.");
+        System.out.println("Type a task to add it. Commands: list, mark <number>, unmark <number>, bye.");
         printDivider();
     }
 
@@ -93,6 +93,30 @@ public class Ui {
                 System.out.println((i + 1) + ". " + tasks.get(i));
             }
         }
+        printDivider();
+    }
+
+    /**
+     * Confirms that a task was marked as done.
+     *
+     * @param task the task that was just marked
+     */
+    public void showMarked(Task task) {
+        printDivider();
+        System.out.println("Nice! I've marked this task as done:");
+        System.out.println("  " + task);
+        printDivider();
+    }
+
+    /**
+     * Confirms that a task was marked as not done.
+     *
+     * @param task the task that was just unmarked
+     */
+    public void showUnmarked(Task task) {
+        printDivider();
+        System.out.println("OK, I've marked this task as not done yet:");
+        System.out.println("  " + task);
         printDivider();
     }
 
