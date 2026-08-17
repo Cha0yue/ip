@@ -5,11 +5,22 @@ public class UnmarkCommand implements Command {
     private final int oneBasedIndex;
 
     /**
+     * Parses {@code unmark INDEX}.
+     *
+     * @param arguments text after the command word
+     * @return an unmark command for that task number
+     * @throws EkudException if the index is missing, not an integer, or extra text is present
+     */
+    public static UnmarkCommand parse(String arguments) throws EkudException {
+        return new UnmarkCommand(Parser.parseOneBasedIndex("unmark", arguments));
+    }
+
+    /**
      * Creates a command that will mark the given task as not done.
      *
      * @param oneBasedIndex task number as shown in the list, starting from 1
      */
-    public UnmarkCommand(int oneBasedIndex) {
+    private UnmarkCommand(int oneBasedIndex) {
         this.oneBasedIndex = oneBasedIndex;
     }
 

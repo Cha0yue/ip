@@ -5,11 +5,25 @@ public class TodoCommand implements Command {
     private final String description;
 
     /**
+     * Parses {@code todo DESCRIPTION}.
+     *
+     * @param arguments text after the command word
+     * @return a todo command
+     * @throws EkudException if the description is missing
+     */
+    public static TodoCommand parse(String arguments) throws EkudException {
+        if (arguments.isBlank()) {
+            throw new EkudException("The description of a todo cannot be empty.");
+        }
+        return new TodoCommand(arguments.trim());
+    }
+
+    /**
      * Creates a command that will add a todo with the given description.
      *
      * @param description text of the todo to add
      */
-    public TodoCommand(String description) {
+    private TodoCommand(String description) {
         this.description = description;
     }
 
