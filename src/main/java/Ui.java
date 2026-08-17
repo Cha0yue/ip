@@ -37,7 +37,8 @@ public class Ui {
         System.out.println("Hello! I'm " + NAME + ".");
         printStartupJoke();
         System.out.println();
-        System.out.println("Type a task to add it. Commands: list, mark <number>, unmark <number>, bye.");
+        System.out.println("Add a task with todo, deadline, or event.");
+        System.out.println("Other commands: list, mark <number>, unmark <number>, bye.");
         printDivider();
     }
 
@@ -71,7 +72,7 @@ public class Ui {
      */
     public void showAdded(Task task, int taskCount) {
         printDivider();
-        System.out.println("Got it. Added this task:");
+        System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
         String noun = taskCount == 1 ? "task" : "tasks";
         System.out.println("Now you have " + taskCount + " " + noun + " in the list.");

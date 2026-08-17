@@ -1,8 +1,9 @@
 /**
  * A single item in the chatbot's task list.
- * Stores a description and whether the task is done.
+ * Concrete subclasses ({@link Todo}, {@link Deadline}, {@link Event}) add any
+ * date/time details. Dates are stored as the user typed them for now.
  */
-public class Task {
+public abstract class Task {
     private final String description;
     private boolean isDone;
 
@@ -11,13 +12,13 @@ public class Task {
      *
      * @param description text describing the task
      */
-    public Task(String description) {
+    protected Task(String description) {
         this.description = description;
         this.isDone = false;
     }
 
     /**
-     * Returns the task description.
+     * Returns the task description, without type or date details.
      *
      * @return the description text
      */
@@ -49,6 +50,13 @@ public class Task {
     }
 
     /**
+     * Returns the letter that identifies this task type, for example {@code T}.
+     *
+     * @return the type icon
+     */
+    public abstract String getTypeIcon();
+
+    /**
      * Returns {@code X} if done, or a space if not done, for the status box.
      *
      * @return the status icon character as a string
@@ -58,12 +66,22 @@ public class Task {
     }
 
     /**
-     * Returns the task with its status box, for example {@code [X] read book}.
+     * Extra details such as a deadline or event times. Empty for todos.
      *
-     * @return the status box and description
+     * @return a suffix to append after the description, or an empty string
+     */
+    protected String extraDetails() {
+        return "";
+    }
+
+    /**
+     * Returns the task with type and status boxes, for example
+     * {@code [T][ ] borrow book}.
+     *
+     * @return the formatted task
      */
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        return "[" + getTypeIcon() + "][" + getStatusIcon() + "] " + description + extraDetails();
     }
 }
