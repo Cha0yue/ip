@@ -1,8 +1,7 @@
 /**
  * Turns a line of user input into a {@link Command}.
  * Command words are the first token and are case-sensitive.
- * Each command class owns its own argument grammar via {@code parse};
- * this class only splits the command word and dispatches.
+ * {@link CommandType} holds the vocabulary; each command class owns its argument grammar.
  */
 public class Parser {
     /**
@@ -14,8 +13,7 @@ public class Parser {
      */
     public static Command parse(String input) throws EkudException {
         if (input == null || input.isBlank()) {
-            throw new EkudException(
-                    "Please enter a command (todo, deadline, event, list, mark, unmark, delete, bye).");
+            throw new EkudException("Please enter a command (" + CommandType.helpList() + ").");
         }
 
         String trimmed = input.trim();
@@ -23,18 +21,11 @@ public class Parser {
         String commandWord = parts[0];
         String arguments = parts.length > 1 ? parts[1] : "";
 
-        return switch (commandWord) {
-            case "list" -> ListCommand.parse(arguments);
-            case "bye" -> ByeCommand.parse(arguments);
-            case "mark" -> MarkCommand.parse(arguments);
-            case "unmark" -> UnmarkCommand.parse(arguments);
-            case "delete" -> DeleteCommand.parse(arguments);
-            case "todo" -> TodoCommand.parse(arguments);
-            case "deadline" -> DeadlineCommand.parse(arguments);
-            case "event" -> EventCommand.parse(arguments);
-            default -> throw new EkudException(
-                    "I don't recognise that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
-        };
+        CommandType commandType = CommandType.fromKeyword(commandWord);
+        if (commandType == null) {
+            throw new EkudException("I don't recognise that command. Try " + CommandType.helpList() + ".");
+        }
+        return commandType.parse(arguments);
     }
 
     /**
