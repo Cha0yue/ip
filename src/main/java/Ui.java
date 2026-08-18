@@ -38,7 +38,7 @@ public class Ui {
         printStartupJoke();
         System.out.println();
         System.out.println("Add a task with todo, deadline, or event.");
-        System.out.println("Other commands: list, mark <number>, unmark <number>, bye.");
+        System.out.println("Other commands: list, mark <number>, unmark <number>, delete <number>, bye.");
         printDivider();
     }
 
@@ -94,6 +94,21 @@ public class Ui {
                 System.out.println((i + 1) + ". " + tasks.get(i));
             }
         }
+        printDivider();
+    }
+
+    /**
+     * Confirms that a task was deleted and reports the new list size.
+     *
+     * @param task      the task that was just removed
+     * @param taskCount number of tasks after the delete
+     */
+    public void showDeleted(Task task, int taskCount) {
+        printDivider();
+        System.out.println("Noted. I've removed this task:");
+        System.out.println("  " + task);
+        String noun = taskCount == 1 ? "task" : "tasks";
+        System.out.println("Now you have " + taskCount + " " + noun + " in the list.");
         printDivider();
     }
 

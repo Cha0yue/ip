@@ -48,6 +48,20 @@ public class TaskList {
     }
 
     /**
+     * Removes and returns the task at the given 1-based number.
+     * Later tasks shift down so the remaining numbers stay consecutive.
+     *
+     * @param index task number as shown to the user, starting from 1
+     * @return the task that was removed
+     * @throws EkudException if {@code index} is out of range
+     */
+    public Task removeByOneBasedIndex(int index) throws EkudException {
+        Task task = getByOneBasedIndex(index);
+        tasks.remove(index - 1);
+        return task;
+    }
+
+    /**
      * Returns how many tasks are currently stored.
      *
      * @return the number of tasks

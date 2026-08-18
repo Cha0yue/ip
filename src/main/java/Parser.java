@@ -14,7 +14,8 @@ public class Parser {
      */
     public static Command parse(String input) throws EkudException {
         if (input == null || input.isBlank()) {
-            throw new EkudException("Please enter a command (todo, deadline, event, list, mark, unmark, bye).");
+            throw new EkudException(
+                    "Please enter a command (todo, deadline, event, list, mark, unmark, delete, bye).");
         }
 
         String trimmed = input.trim();
@@ -27,11 +28,12 @@ public class Parser {
             case "bye" -> ByeCommand.parse(arguments);
             case "mark" -> MarkCommand.parse(arguments);
             case "unmark" -> UnmarkCommand.parse(arguments);
+            case "delete" -> DeleteCommand.parse(arguments);
             case "todo" -> TodoCommand.parse(arguments);
             case "deadline" -> DeadlineCommand.parse(arguments);
             case "event" -> EventCommand.parse(arguments);
             default -> throw new EkudException(
-                    "I don't recognise that command. Try todo, deadline, event, list, mark, unmark, or bye.");
+                    "I don't recognise that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
         };
     }
 
@@ -49,7 +51,7 @@ public class Parser {
     }
 
     /**
-     * Parses the single 1-based task number used by {@code mark} and {@code unmark}.
+     * Parses the single 1-based task number used by {@code mark}, {@code unmark}, and {@code delete}.
      *
      * @param commandWord the command being parsed, used in error messages
      * @param arguments   text after the command word
