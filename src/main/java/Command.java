@@ -6,12 +6,15 @@
 public interface Command {
     /**
      * Carries out this command.
+     * Commands that change the list should call {@link Storage#save} after the
+     * change so the file stays in sync.
      *
-     * @param tasks the task list to read or update
-     * @param ui    used to show results to the user
+     * @param tasks   the task list to read or update
+     * @param ui      used to show results to the user
+     * @param storage used to persist the list after a change
      * @throws EkudException if the command cannot be executed
      */
-    void execute(TaskList tasks, Ui ui) throws EkudException;
+    void execute(TaskList tasks, Ui ui, Storage storage) throws EkudException;
 
     /**
      * Returns whether the chatbot should stop after this command.

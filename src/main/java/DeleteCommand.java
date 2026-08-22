@@ -25,15 +25,17 @@ public class DeleteCommand implements Command {
     }
 
     /**
-     * Removes the selected task and shows a confirmation.
+     * Removes the selected task, saves the list, and shows a confirmation.
      *
-     * @param tasks the list containing the task
-     * @param ui    used to show the confirmation
-     * @throws EkudException if the task number does not exist
+     * @param tasks   the list containing the task
+     * @param ui      used to show the confirmation
+     * @param storage used to persist the updated list
+     * @throws EkudException if the task number does not exist or the list cannot be saved
      */
     @Override
-    public void execute(TaskList tasks, Ui ui) throws EkudException {
+    public void execute(TaskList tasks, Ui ui, Storage storage) throws EkudException {
         Task removed = tasks.removeByOneBasedIndex(oneBasedIndex);
+        storage.save(tasks);
         ui.showDeleted(removed, tasks.size());
     }
 }

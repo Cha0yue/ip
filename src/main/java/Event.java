@@ -55,4 +55,15 @@ public class Event extends Task {
     protected String extraDetails() {
         return " (from: " + from + " to: " + to + ")";
     }
+
+    /**
+     * Returns {@code event DESCRIPTION /from START /to END}.
+     *
+     * @return the add-command text for this event
+     */
+    @Override
+    public String toCommandString() {
+        return CommandType.EVENT.getKeyword() + " " + getDescription()
+                + " /from " + from + " /to " + to;
+    }
 }

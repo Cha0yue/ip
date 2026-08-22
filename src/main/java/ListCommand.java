@@ -19,13 +19,14 @@ public class ListCommand implements Command {
     }
 
     /**
-     * Displays the tasks through the UI.
+     * Displays the tasks through the UI. The save file is not written.
      *
-     * @param tasks the list to display
-     * @param ui    used to show the list
+     * @param tasks   the list to display
+     * @param ui      used to show the list
+     * @param storage unused; listing does not change the list
      */
     @Override
-    public void execute(TaskList tasks, Ui ui) {
+    public void execute(TaskList tasks, Ui ui, Storage storage) {
         ui.showTaskList(tasks);
     }
 }
