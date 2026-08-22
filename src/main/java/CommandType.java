@@ -8,6 +8,7 @@ public enum CommandType {
     DEADLINE("deadline", DeadlineCommand::parse),
     EVENT("event", EventCommand::parse),
     LIST("list", ListCommand::parse),
+    ON("on", OnCommand::parse),
     MARK("mark", MarkCommand::parse),
     UNMARK("unmark", UnmarkCommand::parse),
     DELETE("delete", DeleteCommand::parse),

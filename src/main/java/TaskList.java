@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,5 +89,22 @@ public class TaskList {
      */
     public boolean isEmpty() {
         return tasks.isEmpty();
+    }
+
+    /**
+     * Returns deadlines due on {@code date} and events whose range includes it,
+     * in list order. Todos are omitted.
+     *
+     * @param date the calendar date to match
+     * @return matching tasks; empty if none
+     */
+    public List<Task> findOccurringOn(LocalDate date) {
+        List<Task> matches = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.occursOn(date)) {
+                matches.add(task);
+            }
+        }
+        return matches;
     }
 }

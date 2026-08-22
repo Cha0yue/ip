@@ -6,15 +6,17 @@ public class EventCommand implements TaskCreatingCommand {
     private static final String FLAG_TO = "/to";
 
     private final String description;
-    private final String from;
-    private final String to;
+    private final TaskDateTime from;
+    private final TaskDateTime to;
 
     /**
      * Parses {@code event DESCRIPTION /from START /to END}.
+     * {@code START} and {@code END} must be supported dates or date-times,
+     * for example {@code 2019-12-02 1400}.
      *
      * @param arguments text after the command word
      * @return an event command
-     * @throws EkudException if the description, flags, or date/times are missing
+     * @throws EkudException if the description, flags, or date/times are missing or invalid
      */
     public static EventCommand parse(String arguments) throws EkudException {
         if (arguments.isBlank()) {
@@ -24,35 +26,58 @@ public class EventCommand implements TaskCreatingCommand {
         int toIndex = Parser.indexOfFlag(arguments, FLAG_TO);
         if (fromIndex < 0 || toIndex < 0) {
             throw new EkudException(
-                    "Please provide both /from and /to, e.g. event meeting /from Mon 2pm /to 4pm.");
+                    "Please provide both /from and /to, e.g. event meeting /from 2019-12-02 1400 /to 2019-12-02 1600.");
         }
         if (fromIndex > toIndex) {
             throw new EkudException(
-                    "Please put /from before /to, e.g. event meeting /from Mon 2pm /to 4pm.");
+                    "Please put /from before /to, e.g. event meeting /from 2019-12-02 1400 /to 2019-12-02 1600.");
         }
         String description = arguments.substring(0, fromIndex).trim();
-        String from = arguments.substring(fromIndex + FLAG_FROM.length(), toIndex).trim();
-        String to = arguments.substring(toIndex + FLAG_TO.length()).trim();
+        String fromText = arguments.substring(fromIndex + FLAG_FROM.length(), toIndex).trim();
+        String toText = arguments.substring(toIndex + FLAG_TO.length()).trim();
         if (description.isEmpty()) {
             throw new EkudException("The description of an event cannot be empty.");
         }
-        if (from.isEmpty()) {
+        if (fromText.isEmpty()) {
             throw new EkudException("Please provide a start date/time after /from.");
         }
-        if (to.isEmpty()) {
+        if (toText.isEmpty()) {
             throw new EkudException("Please provide an end date/time after /to.");
         }
+        TaskDateTime from = TaskDateTime.parse(fromText);
+        TaskDateTime to = TaskDateTime.parse(toText);
+        if (isEndBeforeStart(from, to)) {
+            throw new EkudException("The event end date/time cannot be before the start date/time.");
+        }
         return new EventCommand(description, from, to);
+    }
+
+    /**
+     * Returns whether {@code to} is earlier than {@code from}.
+     * Date-only values are compared by calendar date; times are compared only
+     * when both sides include a time on the same day.
+     */
+    private static boolean isEndBeforeStart(TaskDateTime from, TaskDateTime to) {
+        if (from.toLocalDate().isAfter(to.toLocalDate())) {
+            return true;
+        }
+        if (!from.toLocalDate().equals(to.toLocalDate())) {
+            return false;
+        }
+        if (!from.hasTime() || !to.hasTime()) {
+            return false;
+        }
+        return from.toLocalTime().isAfter(to.toLocalTime());
     }
 
     /**
      * Creates a command that will add an event.
      *
      * @param description text of the event to add
-     * @param from        start date/time as typed by the user
-     * @param to          end date/time as typed by the user
+     * @param from        start date or date-time
+     * @param to          end date or date-time
      */
-    private EventCommand(String description, String from, String to) {
+    private EventCommand(String description, TaskDateTime from, TaskDateTime to) {
         this.description = description;
         this.from = from;
         this.to = to;

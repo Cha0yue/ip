@@ -1,7 +1,9 @@
+import java.time.LocalDate;
+
 /**
  * A single item in the chatbot's task list.
  * Concrete subclasses ({@link Todo}, {@link Deadline}, {@link Event}) add any
- * date/time details. Dates are stored as the user typed them for now.
+ * date/time details. Deadlines and events store those as {@link TaskDateTime}.
  */
 public abstract class Task {
     private final String description;
@@ -72,6 +74,17 @@ public abstract class Task {
      */
     protected String extraDetails() {
         return "";
+    }
+
+    /**
+     * Returns whether this task occurs on {@code date}.
+     * Todos always return {@code false}; deadlines and events override this.
+     *
+     * @param date the calendar date to test
+     * @return {@code true} if this task occurs on that date
+     */
+    public boolean occursOn(LocalDate date) {
+        return false;
     }
 
     /**

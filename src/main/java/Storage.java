@@ -12,8 +12,8 @@ import java.util.List;
  * add-command text the user would type, for example:
  * <pre>
  * 0 todo borrow book
- * 1 deadline return book /by Sunday
- * 0 event meeting /from Mon 2pm /to 4pm
+ * 1 deadline return book /by 2019-12-02
+ * 0 event meeting /from 2019-12-02 1400 /to 2019-12-02 1600
  * </pre>
  * Loading reuses {@link Parser} so descriptions may contain {@code |} and
  * stay consistent with the live command grammar. Blank or corrupt lines are

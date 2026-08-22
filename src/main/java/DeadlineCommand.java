@@ -5,14 +5,16 @@ public class DeadlineCommand implements TaskCreatingCommand {
     private static final String FLAG_BY = "/by";
 
     private final String description;
-    private final String by;
+    private final TaskDateTime by;
 
     /**
      * Parses {@code deadline DESCRIPTION /by WHEN}.
+     * {@code WHEN} must be a supported date or date-time, for example
+     * {@code 2019-12-02} or {@code 2/12/2019 1800}.
      *
      * @param arguments text after the command word
      * @return a deadline command
-     * @throws EkudException if the description, {@code /by}, or date/time is missing
+     * @throws EkudException if the description, {@code /by}, or date/time is missing or invalid
      */
     public static DeadlineCommand parse(String arguments) throws EkudException {
         if (arguments.isBlank()) {
@@ -20,26 +22,28 @@ public class DeadlineCommand implements TaskCreatingCommand {
         }
         int byIndex = Parser.indexOfFlag(arguments, FLAG_BY);
         if (byIndex < 0) {
-            throw new EkudException("Please provide a deadline using /by, e.g. deadline return book /by Sunday.");
+            throw new EkudException(
+                    "Please provide a deadline using /by, e.g. deadline return book /by 2019-12-02.");
         }
         String description = arguments.substring(0, byIndex).trim();
-        String by = arguments.substring(byIndex + FLAG_BY.length()).trim();
+        String byText = arguments.substring(byIndex + FLAG_BY.length()).trim();
         if (description.isEmpty()) {
             throw new EkudException("The description of a deadline cannot be empty.");
         }
-        if (by.isEmpty()) {
-            throw new EkudException("Please provide a date/time after /by, e.g. deadline return book /by Sunday.");
+        if (byText.isEmpty()) {
+            throw new EkudException(
+                    "Please provide a date/time after /by, e.g. deadline return book /by 2019-12-02.");
         }
-        return new DeadlineCommand(description, by);
+        return new DeadlineCommand(description, TaskDateTime.parse(byText));
     }
 
     /**
      * Creates a command that will add a deadline.
      *
      * @param description text of the deadline to add
-     * @param by          due date/time as typed by the user
+     * @param by          due date or date-time
      */
-    private DeadlineCommand(String description, String by) {
+    private DeadlineCommand(String description, TaskDateTime by) {
         this.description = description;
         this.by = by;
     }
