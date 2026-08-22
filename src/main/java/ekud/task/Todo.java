@@ -1,3 +1,5 @@
+package ekud.task;
+
 /**
  * A task with no date or time attached, for example {@code visit new theme park}.
  */
@@ -28,6 +30,6 @@ public class Todo extends Task {
      */
     @Override
     public String toCommandString() {
-        return CommandType.TODO.getKeyword() + " " + getDescription();
+        return "todo " + getDescription();
     }
 }

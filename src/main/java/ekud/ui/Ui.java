@@ -1,12 +1,17 @@
+package ekud.ui;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
+import ekud.task.Task;
+import ekud.task.TaskList;
+
 /**
  * Handles all interaction with the user: reading typed input and printing
- * messages. Keeping I/O here keeps {@link Ekud} and the commands free of
+ * messages. Keeping I/O here keeps {@link ekud.Ekud} and the commands free of
  * {@code System.out} calls.
  */
 public class Ui {

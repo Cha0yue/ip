@@ -1,3 +1,5 @@
+package ekud.task;
+
 import java.time.LocalDate;
 
 /**
@@ -78,7 +80,7 @@ public class Event extends Task {
      */
     @Override
     public String toCommandString() {
-        return CommandType.EVENT.getKeyword() + " " + getDescription()
+        return "event " + getDescription()
                 + " /from " + from.toSaveString() + " /to " + to.toSaveString();
     }
 }

@@ -1,7 +1,14 @@
+package ekud.command;
+
+import ekud.EkudException;
+import ekud.storage.Storage;
+import ekud.task.TaskList;
+import ekud.ui.Ui;
+
 /**
  * A user command that can be executed against the task list.
  * Each concrete command owns its own validation and behaviour so new
- * commands can be added without growing {@link Ekud}.
+ * commands can be added without growing {@link ekud.Ekud}.
  */
 public interface Command {
     /**

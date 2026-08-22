@@ -1,6 +1,14 @@
+package ekud;
+
+import ekud.command.Command;
+import ekud.parser.Parser;
+import ekud.storage.Storage;
+import ekud.task.TaskList;
+import ekud.ui.Ui;
+
 /**
  * Entry point for the Ekud chatbot.
- * On startup it loads any saved tasks, greets the user, then reads commands
+ * On startup, it loads any saved tasks, greets the user, then reads commands
  * until {@code bye}. Command parsing, disk storage, the in-memory list, and
  * printing are delegated to {@link Parser}, {@link Storage}, {@link TaskList},
  * and {@link Ui} respectively.

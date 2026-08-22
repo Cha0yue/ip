@@ -1,3 +1,12 @@
+package ekud.command;
+
+import ekud.EkudException;
+import ekud.parser.Parser;
+import ekud.storage.Storage;
+import ekud.task.Task;
+import ekud.task.TaskList;
+import ekud.ui.Ui;
+
 /**
  * Deletes a task, using the 1-based number shown by {@code list}.
  */

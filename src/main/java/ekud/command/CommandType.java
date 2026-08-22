@@ -1,3 +1,7 @@
+package ekud.command;
+
+import ekud.EkudException;
+
 /**
  * The fixed set of command words the chatbot understands.
  * Each value maps a keyword to that command class's {@code parse} method.

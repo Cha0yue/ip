@@ -1,3 +1,14 @@
+package ekud.command;
+
+import ekud.EkudException;
+import ekud.parser.Parser;
+import ekud.storage.Storage;
+import ekud.task.Event;
+import ekud.task.Task;
+import ekud.task.TaskDateTime;
+import ekud.task.TaskList;
+import ekud.ui.Ui;
+
 /**
  * Adds an {@link Event} to the task list.
  */

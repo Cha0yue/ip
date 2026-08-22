@@ -1,6 +1,10 @@
+package ekud.task;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import ekud.EkudException;
 
 /**
  * In-memory list of {@link Task} objects.
