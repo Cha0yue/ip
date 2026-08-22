@@ -1,7 +1,7 @@
 /**
  * Adds an {@link Event} to the task list.
  */
-public class EventCommand implements Command {
+public class EventCommand implements TaskCreatingCommand {
     private static final String FLAG_FROM = "/from";
     private static final String FLAG_TO = "/to";
 
@@ -59,15 +59,29 @@ public class EventCommand implements Command {
     }
 
     /**
-     * Adds the event to {@code tasks} and shows a confirmation.
+     * Builds the event without adding it to the list.
+     * {@link Storage} uses this when loading a saved {@code event} line.
      *
-     * @param tasks the list to add to
-     * @param ui    used to show the confirmation
+     * @return a new incomplete event
      */
     @Override
-    public void execute(TaskList tasks, Ui ui) {
-        Task task = new Event(description, from, to);
+    public Task createTask() {
+        return new Event(description, from, to);
+    }
+
+    /**
+     * Adds the event to {@code tasks}, saves the list, and shows a confirmation.
+     *
+     * @param tasks   the list to add to
+     * @param ui      used to show the confirmation
+     * @param storage used to persist the updated list
+     * @throws EkudException if the list cannot be saved
+     */
+    @Override
+    public void execute(TaskList tasks, Ui ui, Storage storage) throws EkudException {
+        Task task = createTask();
         tasks.add(task);
+        storage.save(tasks);
         ui.showAdded(task, tasks.size());
     }
 }

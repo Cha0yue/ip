@@ -20,4 +20,14 @@ public class Todo extends Task {
     public String getTypeIcon() {
         return "T";
     }
+
+    /**
+     * Returns {@code todo} followed by the description.
+     *
+     * @return the add-command text for this todo
+     */
+    @Override
+    public String toCommandString() {
+        return CommandType.TODO.getKeyword() + " " + getDescription();
+    }
 }

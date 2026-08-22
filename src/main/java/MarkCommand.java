@@ -25,16 +25,18 @@ public class MarkCommand implements Command {
     }
 
     /**
-     * Marks the selected task as done and shows a confirmation.
+     * Marks the selected task as done, saves the list, and shows a confirmation.
      *
-     * @param tasks the list containing the task
-     * @param ui    used to show the confirmation
-     * @throws EkudException if the task number does not exist
+     * @param tasks   the list containing the task
+     * @param ui      used to show the confirmation
+     * @param storage used to persist the updated list
+     * @throws EkudException if the task number does not exist or the list cannot be saved
      */
     @Override
-    public void execute(TaskList tasks, Ui ui) throws EkudException {
+    public void execute(TaskList tasks, Ui ui, Storage storage) throws EkudException {
         Task task = tasks.getByOneBasedIndex(oneBasedIndex);
         task.markAsDone();
+        storage.save(tasks);
         ui.showMarked(task);
     }
 }

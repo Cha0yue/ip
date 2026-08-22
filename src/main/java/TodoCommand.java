@@ -1,7 +1,7 @@
 /**
  * Adds a {@link Todo} to the task list.
  */
-public class TodoCommand implements Command {
+public class TodoCommand implements TaskCreatingCommand {
     private final String description;
 
     /**
@@ -28,15 +28,29 @@ public class TodoCommand implements Command {
     }
 
     /**
-     * Adds the todo to {@code tasks} and shows a confirmation.
+     * Builds the todo without adding it to the list.
+     * {@link Storage} uses this when loading a saved {@code todo} line.
      *
-     * @param tasks the list to add to
-     * @param ui    used to show the confirmation
+     * @return a new incomplete todo
      */
     @Override
-    public void execute(TaskList tasks, Ui ui) {
-        Task task = new Todo(description);
+    public Task createTask() {
+        return new Todo(description);
+    }
+
+    /**
+     * Adds the todo to {@code tasks}, saves the list, and shows a confirmation.
+     *
+     * @param tasks   the list to add to
+     * @param ui      used to show the confirmation
+     * @param storage used to persist the updated list
+     * @throws EkudException if the list cannot be saved
+     */
+    @Override
+    public void execute(TaskList tasks, Ui ui, Storage storage) throws EkudException {
+        Task task = createTask();
         tasks.add(task);
+        storage.save(tasks);
         ui.showAdded(task, tasks.size());
     }
 }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * In-memory list of {@link Task} objects.
@@ -12,6 +13,16 @@ public class TaskList {
      */
     public TaskList() {
         this.tasks = new ArrayList<>();
+    }
+
+    /**
+     * Creates a task list containing a copy of the given tasks.
+     * Used when loading a saved file so the original list is not shared.
+     *
+     * @param loadedTasks tasks read from disk, in the order they should appear
+     */
+    public TaskList(List<Task> loadedTasks) {
+        this.tasks = new ArrayList<>(loadedTasks);
     }
 
     /**

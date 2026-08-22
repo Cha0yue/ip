@@ -20,13 +20,14 @@ public class ByeCommand implements Command {
 
     /**
      * Shows the goodbye message. The chatbot then exits because {@link #isExit()}
-     * is {@code true}.
+     * is {@code true}. The save file is not written; earlier commands already saved.
      *
-     * @param tasks unused
-     * @param ui    used to show the goodbye message
+     * @param tasks   unused
+     * @param ui      used to show the goodbye message
+     * @param storage unused; exiting does not change the list
      */
     @Override
-    public void execute(TaskList tasks, Ui ui) {
+    public void execute(TaskList tasks, Ui ui, Storage storage) {
         ui.showGoodbye();
     }
 

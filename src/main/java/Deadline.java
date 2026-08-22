@@ -43,4 +43,14 @@ public class Deadline extends Task {
     protected String extraDetails() {
         return " (by: " + by + ")";
     }
+
+    /**
+     * Returns {@code deadline DESCRIPTION /by WHEN}.
+     *
+     * @return the add-command text for this deadline
+     */
+    @Override
+    public String toCommandString() {
+        return CommandType.DEADLINE.getKeyword() + " " + getDescription() + " /by " + by;
+    }
 }
