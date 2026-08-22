@@ -1,3 +1,5 @@
+package ekud.task;
+
 import java.time.LocalDate;
 
 /**
@@ -89,7 +91,7 @@ public abstract class Task {
 
     /**
      * Returns the add-command text that would recreate this task, without the
-     * done flag. {@link Storage} prefixes {@code 0} or {@code 1} when saving.
+     * done flag. {@link ekud.storage.Storage} prefixes {@code 0} or {@code 1} when saving.
      *
      * @return a line such as {@code todo borrow book}
      */

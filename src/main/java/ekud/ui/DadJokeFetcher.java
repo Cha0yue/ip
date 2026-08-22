@@ -1,3 +1,5 @@
+package ekud.ui;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -6,7 +8,7 @@ import java.time.Duration;
 
 /**
  * Fetches a random dad joke from the API Ninjas Dad Jokes API.
- * Isolated from {@link Ekud} so HTTP, JSON parsing, and error handling
+ * Isolated from {@link ekud.Ekud} so HTTP, JSON parsing, and error handling
  * stay out of the chatbot's greeting and command loop.
  */
 public class DadJokeFetcher {
@@ -125,13 +127,13 @@ public class DadJokeFetcher {
             }
         }
         switch (escaped) {
-        case '"', '\\', '/' -> output.append(escaped);
-        case 'b' -> output.append('\b');
-        case 'f' -> output.append('\f');
-        case 'n' -> output.append('\n');
-        case 'r' -> output.append('\r');
-        case 't' -> output.append('\t');
-        default -> output.append(escaped);
+            case '"', '\\', '/' -> output.append(escaped);
+            case 'b' -> output.append('\b');
+            case 'f' -> output.append('\f');
+            case 'n' -> output.append('\n');
+            case 'r' -> output.append('\r');
+            case 't' -> output.append('\t');
+            default -> output.append(escaped);
         }
         return backslashIndex + 2;
     }

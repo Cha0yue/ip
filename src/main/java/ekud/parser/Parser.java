@@ -1,3 +1,9 @@
+package ekud.parser;
+
+import ekud.EkudException;
+import ekud.command.Command;
+import ekud.command.CommandType;
+
 /**
  * Turns a line of user input into a {@link Command}.
  * Command words are the first token and are case-sensitive.
@@ -35,7 +41,7 @@ public class Parser {
      * @param arguments   text after the command word
      * @throws EkudException if {@code arguments} is not blank
      */
-    static void requireNoArguments(String commandWord, String arguments) throws EkudException {
+    public static void requireNoArguments(String commandWord, String arguments) throws EkudException {
         if (!arguments.isBlank()) {
             throw new EkudException("The \"" + commandWord + "\" command does not take any arguments.");
         }
@@ -49,7 +55,7 @@ public class Parser {
      * @return the task number, starting from 1
      * @throws EkudException if the number is missing, not an integer, or extra text is present
      */
-    static int parseOneBasedIndex(String commandWord, String arguments) throws EkudException {
+    public static int parseOneBasedIndex(String commandWord, String arguments) throws EkudException {
         if (arguments.isBlank()) {
             throw new EkudException("Please provide a task number, e.g. " + commandWord + " 1.");
         }
@@ -73,7 +79,7 @@ public class Parser {
      * @param flag  token to find, for example {@code /by}
      * @return starting index of the flag, or {@code -1}
      */
-    static int indexOfFlag(String input, String flag) {
+    public static int indexOfFlag(String input, String flag) {
         int searchFrom = 0;
         while (searchFrom <= input.length() - flag.length()) {
             int found = input.indexOf(flag, searchFrom);

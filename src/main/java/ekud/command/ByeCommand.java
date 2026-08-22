@@ -1,3 +1,11 @@
+package ekud.command;
+
+import ekud.EkudException;
+import ekud.parser.Parser;
+import ekud.storage.Storage;
+import ekud.task.TaskList;
+import ekud.ui.Ui;
+
 /**
  * Ends the chatbot session after printing a goodbye message.
  * This command does not take arguments.

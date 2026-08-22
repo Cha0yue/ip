@@ -1,3 +1,5 @@
+package ekud.task;
+
 import java.time.LocalDate;
 
 /**
@@ -64,6 +66,6 @@ public class Deadline extends Task {
      */
     @Override
     public String toCommandString() {
-        return CommandType.DEADLINE.getKeyword() + " " + getDescription() + " /by " + by.toSaveString();
+        return "deadline " + getDescription() + " /by " + by.toSaveString();
     }
 }

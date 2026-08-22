@@ -1,3 +1,5 @@
+package ekud;
+
 /**
  * A user-facing error, such as empty input or extra arguments on a command.
  * These are shown to the user instead of crashing the chatbot.
