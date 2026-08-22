@@ -1,3 +1,7 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -38,7 +42,7 @@ public class Ui {
         printStartupJoke();
         System.out.println();
         System.out.println("Add a task with todo, deadline, or event.");
-        System.out.println("Other commands: list, mark <number>, unmark <number>, delete <number>, bye.");
+        System.out.println("Other commands: list, on <date>, mark <number>, unmark <number>, delete <number>, bye.");
         printDivider();
     }
 
@@ -92,6 +96,27 @@ public class Ui {
             System.out.println("Here are the tasks in your list:");
             for (int i = 0; i < tasks.size(); i++) {
                 System.out.println((i + 1) + ". " + tasks.get(i));
+            }
+        }
+        printDivider();
+    }
+
+    /**
+     * Prints deadlines and events that occur on {@code date}, or a short
+     * message if none match.
+     *
+     * @param date    the date that was queried
+     * @param matches tasks that occur on that date, already filtered
+     */
+    public void showTasksOn(LocalDate date, List<Task> matches) {
+        printDivider();
+        String formatted = date.format(DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH));
+        if (matches.isEmpty()) {
+            System.out.println("No deadlines or events on " + formatted + ".");
+        } else {
+            System.out.println("Here are the deadlines/events on " + formatted + ":");
+            for (int i = 0; i < matches.size(); i++) {
+                System.out.println((i + 1) + ". " + matches.get(i));
             }
         }
         printDivider();

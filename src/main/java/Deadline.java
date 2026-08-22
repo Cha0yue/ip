@@ -1,26 +1,28 @@
+import java.time.LocalDate;
+
 /**
- * A task that must be done by a given date/time, stored as the user typed it.
+ * A task that must be done by a given date or date-time.
  */
 public class Deadline extends Task {
-    private final String by;
+    private final TaskDateTime by;
 
     /**
      * Creates a deadline with the given description and due date/time.
      *
      * @param description text describing the deadline
-     * @param by          due date/time, for example {@code Sunday} or {@code 11/10/2019 5pm}
+     * @param by          due date or date-time
      */
-    public Deadline(String description, String by) {
+    public Deadline(String description, TaskDateTime by) {
         super(description);
         this.by = by;
     }
 
     /**
-     * Returns the due date/time text.
+     * Returns the due date or date-time.
      *
      * @return the {@code /by} value
      */
-    public String getBy() {
+    public TaskDateTime getBy() {
         return by;
     }
 
@@ -35,22 +37,33 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns whether this deadline is due on {@code date}.
+     *
+     * @param date the calendar date to test
+     * @return {@code true} if the due date is that day
+     */
+    @Override
+    public boolean occursOn(LocalDate date) {
+        return by.occursOn(date);
+    }
+
+    /**
      * Returns the due date/time in {@code (by: ...)} form.
      *
      * @return the deadline suffix
      */
     @Override
     protected String extraDetails() {
-        return " (by: " + by + ")";
+        return " (by: " + by.toDisplayString() + ")";
     }
 
     /**
-     * Returns {@code deadline DESCRIPTION /by WHEN}.
+     * Returns {@code deadline DESCRIPTION /by WHEN} using the canonical date form.
      *
      * @return the add-command text for this deadline
      */
     @Override
     public String toCommandString() {
-        return CommandType.DEADLINE.getKeyword() + " " + getDescription() + " /by " + by;
+        return CommandType.DEADLINE.getKeyword() + " " + getDescription() + " /by " + by.toSaveString();
     }
 }

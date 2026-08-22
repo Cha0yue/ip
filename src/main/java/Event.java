@@ -1,38 +1,40 @@
+import java.time.LocalDate;
+
 /**
- * A task that starts and ends at given date/times, stored as the user typed them.
+ * A task that starts and ends at given dates or date-times.
  */
 public class Event extends Task {
-    private final String from;
-    private final String to;
+    private final TaskDateTime from;
+    private final TaskDateTime to;
 
     /**
-     * Creates an event with the given description and start/end date/times.
+     * Creates an event with the given description and start/end date-times.
      *
      * @param description text describing the event
-     * @param from        start date/time, for example {@code Mon 2pm}
-     * @param to          end date/time, for example {@code 4pm}
+     * @param from        start date or date-time
+     * @param to          end date or date-time
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, TaskDateTime from, TaskDateTime to) {
         super(description);
         this.from = from;
         this.to = to;
     }
 
     /**
-     * Returns the start date/time text.
+     * Returns the start date or date-time.
      *
      * @return the {@code /from} value
      */
-    public String getFrom() {
+    public TaskDateTime getFrom() {
         return from;
     }
 
     /**
-     * Returns the end date/time text.
+     * Returns the end date or date-time.
      *
      * @return the {@code /to} value
      */
-    public String getTo() {
+    public TaskDateTime getTo() {
         return to;
     }
 
@@ -47,23 +49,36 @@ public class Event extends Task {
     }
 
     /**
+     * Returns whether {@code date} falls in this event's start–end range, inclusive.
+     *
+     * @param date the calendar date to test
+     * @return {@code true} if the date is on or between the start and end dates
+     */
+    @Override
+    public boolean occursOn(LocalDate date) {
+        LocalDate start = from.toLocalDate();
+        LocalDate end = to.toLocalDate();
+        return !date.isBefore(start) && !date.isAfter(end);
+    }
+
+    /**
      * Returns the start and end date/times in {@code (from: ... to: ...)} form.
      *
      * @return the event suffix
      */
     @Override
     protected String extraDetails() {
-        return " (from: " + from + " to: " + to + ")";
+        return " (from: " + from.toDisplayString() + " to: " + to.toDisplayString() + ")";
     }
 
     /**
-     * Returns {@code event DESCRIPTION /from START /to END}.
+     * Returns {@code event DESCRIPTION /from START /to END} using the canonical date form.
      *
      * @return the add-command text for this event
      */
     @Override
     public String toCommandString() {
         return CommandType.EVENT.getKeyword() + " " + getDescription()
-                + " /from " + from + " /to " + to;
+                + " /from " + from.toSaveString() + " /to " + to.toSaveString();
     }
 }
