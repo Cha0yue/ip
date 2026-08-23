@@ -49,6 +49,8 @@ jar {
 }
 
 shadowJar {
+    // Fat JAR for distribution. Create with: gradlew clean shadowJar
+    // Output path: build/libs/ekud.jar  (already ignored via /build/ in .gitignore)
     archiveFileName = 'ekud.jar'
 }
 
