@@ -1,6 +1,7 @@
 package ekud.task;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 /**
  * A single item in the chatbot's task list.
@@ -87,6 +88,18 @@ public abstract class Task {
      */
     public boolean occursOn(LocalDate date) {
         return false;
+    }
+
+    /**
+     * Returns whether the description contains {@code keyword}, ignoring case.
+     * Only the description is searched, not dates or status text.
+     *
+     * @param keyword text to look for
+     * @return {@code true} if the description contains the keyword
+     */
+    public boolean descriptionContains(String keyword) {
+        return description.toLowerCase(Locale.ENGLISH)
+                .contains(keyword.toLowerCase(Locale.ENGLISH));
     }
 
     /**

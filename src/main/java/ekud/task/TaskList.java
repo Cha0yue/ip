@@ -111,4 +111,21 @@ public class TaskList {
         }
         return matches;
     }
+
+    /**
+     * Returns tasks whose descriptions contain {@code keyword}, in list order.
+     * Matching ignores case and looks only at the description, not dates.
+     *
+     * @param keyword text to look for
+     * @return matching tasks; empty if none
+     */
+    public List<Task> findByKeyword(String keyword) {
+        List<Task> matches = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.descriptionContains(keyword)) {
+                matches.add(task);
+            }
+        }
+        return matches;
+    }
 }

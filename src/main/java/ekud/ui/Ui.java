@@ -47,7 +47,8 @@ public class Ui {
         printStartupJoke();
         System.out.println();
         System.out.println("Add a task with todo, deadline, or event.");
-        System.out.println("Other commands: list, on <date>, mark <number>, unmark <number>, delete <number>, bye.");
+        System.out.println("Other commands: list, on <date>, find <keyword>, mark <number>, "
+                + "unmark <number>, delete <number>, bye.");
         printDivider();
     }
 
@@ -120,6 +121,26 @@ public class Ui {
             System.out.println("No deadlines or events on " + formatted + ".");
         } else {
             System.out.println("Here are the deadlines/events on " + formatted + ":");
+            for (int i = 0; i < matches.size(); i++) {
+                System.out.println((i + 1) + ". " + matches.get(i));
+            }
+        }
+        printDivider();
+    }
+
+    /**
+     * Prints tasks whose descriptions contain {@code keyword}, or a short
+     * message if none match.
+     *
+     * @param keyword the search text that was queried
+     * @param matches tasks that contain the keyword, already filtered
+     */
+    public void showFound(String keyword, List<Task> matches) {
+        printDivider();
+        if (matches.isEmpty()) {
+            System.out.println("No tasks matching \"" + keyword + "\".");
+        } else {
+            System.out.println("Here are the matching tasks in your list:");
             for (int i = 0; i < matches.size(); i++) {
                 System.out.println((i + 1) + ". " + matches.get(i));
             }
