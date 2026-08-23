@@ -2,6 +2,7 @@ package ekud.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 
@@ -42,6 +43,15 @@ public class TodoTest {
     public void occursOn_anyDate_returnsFalse() {
         Todo todo = new Todo("read book");
         assertFalse(todo.occursOn(LocalDate.of(2019, 12, 2)));
+    }
+
+    @Test
+    public void descriptionContains_ignoresCaseAndMatchesSubstring() {
+        Todo todo = new Todo("read book");
+        assertTrue(todo.descriptionContains("book"));
+        assertTrue(todo.descriptionContains("BOOK"));
+        assertTrue(todo.descriptionContains("read"));
+        assertFalse(todo.descriptionContains("notebook"));
     }
 
     @Test

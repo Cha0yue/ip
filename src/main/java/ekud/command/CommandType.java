@@ -13,6 +13,7 @@ public enum CommandType {
     EVENT("event", EventCommand::parse),
     LIST("list", ListCommand::parse),
     ON("on", OnCommand::parse),
+    FIND("find", FindCommand::parse),
     MARK("mark", MarkCommand::parse),
     UNMARK("unmark", UnmarkCommand::parse),
     DELETE("delete", DeleteCommand::parse),

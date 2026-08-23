@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import ekud.EkudException;
 
 /**
- * Tests {@link TaskList} add, lookup, delete, and date filtering.
+ * Tests {@link TaskList} add, lookup, delete, date filtering, and keyword search.
  */
 public class TaskListTest {
     @Test
@@ -70,6 +70,34 @@ public class TaskListTest {
         assertEquals(2, matches.size());
         assertEquals("return book", matches.get(0).getDescription());
         assertEquals("camp", matches.get(1).getDescription());
+    }
+
+    @Test
+    public void findByKeyword_matchesDescriptionSubstringIgnoringCase() throws EkudException {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("read book"));
+        tasks.add(new Deadline("return book", TaskDateTime.parse("2019-12-02")));
+        tasks.add(new Event("project meeting",
+                TaskDateTime.parse("2019-12-01"),
+                TaskDateTime.parse("2019-12-03")));
+        tasks.add(new Todo("buy bread"));
+
+        List<Task> bookMatches = tasks.findByKeyword("BOOK");
+        assertEquals(2, bookMatches.size());
+        assertEquals("read book", bookMatches.get(0).getDescription());
+        assertEquals("return book", bookMatches.get(1).getDescription());
+
+        List<Task> none = tasks.findByKeyword("lecture");
+        assertTrue(none.isEmpty());
+    }
+
+    @Test
+    public void findByKeyword_doesNotSearchDates() throws EkudException {
+        TaskList tasks = new TaskList();
+        tasks.add(new Deadline("return book", TaskDateTime.parse("2019-12-02")));
+
+        assertTrue(tasks.findByKeyword("2019").isEmpty());
+        assertTrue(tasks.findByKeyword("Dec").isEmpty());
     }
 
     @Test

@@ -14,6 +14,7 @@ import ekud.command.Command;
 import ekud.command.CommandType;
 import ekud.command.DeadlineCommand;
 import ekud.command.EventCommand;
+import ekud.command.FindCommand;
 import ekud.command.ListCommand;
 import ekud.command.MarkCommand;
 import ekud.command.TaskCreatingCommand;
@@ -67,6 +68,19 @@ public class ParserTest {
     @Test
     public void parse_mark_returnsMarkCommand() throws EkudException {
         assertInstanceOf(MarkCommand.class, Parser.parse("mark 1"));
+    }
+
+    @Test
+    public void parse_find_returnsFindCommand() throws EkudException {
+        assertInstanceOf(FindCommand.class, Parser.parse("find book"));
+        assertInstanceOf(FindCommand.class, Parser.parse("find read book"));
+    }
+
+    @Test
+    public void parse_findWithoutKeyword_throwsEkudException() {
+        EkudException exception = assertThrows(EkudException.class, () -> Parser.parse("find"));
+        assertEquals("Please provide a keyword, e.g. find book.", exception.getMessage());
+        assertThrows(EkudException.class, () -> Parser.parse("find   "));
     }
 
     @Test
