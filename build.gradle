@@ -37,7 +37,8 @@ test {
 }
 
 application {
-    mainClass = 'seedu.duke.Duke'
+    // Tells the application plugin which class contains main(), so `gradlew run` starts Ekud.
+    mainClass = 'ekud.Ekud'
 }
 
 jar {
@@ -48,9 +49,11 @@ jar {
 }
 
 shadowJar {
-    archiveFileName = 'duke.jar'
+    archiveFileName = 'ekud.jar'
 }
 
 run {
+    // Needed so `gradlew run` can read chatbot commands from the keyboard.
     standardInput = System.in
+    enableAssertions = true
 }
