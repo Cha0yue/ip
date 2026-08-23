@@ -79,7 +79,7 @@ public class ParserTest {
     @Test
     public void parse_blankInput_throwsEkudException() {
         EkudException exception = assertThrows(EkudException.class, () -> Parser.parse(""));
-        assertEquals("Please enter a command (" + CommandType.helpList() + ").", exception.getMessage());
+        assertEquals("Please enter a command (" + CommandType.getHelpList() + ").", exception.getMessage());
         assertThrows(EkudException.class, () -> Parser.parse("   "));
         assertThrows(EkudException.class, () -> Parser.parse(null));
     }
@@ -87,7 +87,7 @@ public class ParserTest {
     @Test
     public void parse_unknownCommand_throwsEkudException() {
         EkudException exception = assertThrows(EkudException.class, () -> Parser.parse("hello"));
-        assertEquals("I don't recognise that command. Try " + CommandType.helpList() + ".",
+        assertEquals("I don't recognize that command. Try " + CommandType.getHelpList() + ".",
                 exception.getMessage());
     }
 

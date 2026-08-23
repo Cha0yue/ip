@@ -5,7 +5,7 @@ import ekud.EkudException;
 /**
  * The fixed set of command words the chatbot understands.
  * Each value maps a keyword to that command class's {@code parse} method.
- * Behaviour stays in the {@link Command} classes; this enum is only the vocabulary.
+ * Behavior stays in the {@link Command} classes; this enum is only the vocabulary.
  */
 public enum CommandType {
     TODO("todo", TodoCommand::parse),
@@ -75,7 +75,7 @@ public enum CommandType {
      *
      * @return comma-separated keywords, with {@code or} before the last
      */
-    public static String helpList() {
+    public static String getHelpList() {
         CommandType[] types = values();
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < types.length; i++) {

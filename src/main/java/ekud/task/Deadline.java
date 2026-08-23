@@ -55,7 +55,7 @@ public class Deadline extends Task {
      * @return the deadline suffix
      */
     @Override
-    protected String extraDetails() {
+    protected String getExtraDetails() {
         return " (by: " + by.toDisplayString() + ")";
     }
 

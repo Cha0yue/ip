@@ -70,11 +70,11 @@ public abstract class Task {
     }
 
     /**
-     * Extra details such as a deadline or event times. Empty for todos.
+     * Returns extra details such as a deadline or event times. Empty for todos.
      *
      * @return a suffix to append after the description, or an empty string
      */
-    protected String extraDetails() {
+    protected String getExtraDetails() {
         return "";
     }
 
@@ -105,6 +105,6 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        return "[" + getTypeIcon() + "][" + getStatusIcon() + "] " + description + extraDetails();
+        return "[" + getTypeIcon() + "][" + getStatusIcon() + "] " + description + getExtraDetails();
     }
 }

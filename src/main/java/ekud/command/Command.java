@@ -7,7 +7,7 @@ import ekud.ui.Ui;
 
 /**
  * A user command that can be executed against the task list.
- * Each concrete command owns its own validation and behaviour so new
+ * Each concrete command owns its own validation and behavior so new
  * commands can be added without growing {@link ekud.Ekud}.
  */
 public interface Command {
