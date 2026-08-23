@@ -69,7 +69,7 @@ public class Event extends Task {
      * @return the event suffix
      */
     @Override
-    protected String extraDetails() {
+    protected String getExtraDetails() {
         return " (from: " + from.toDisplayString() + " to: " + to.toDisplayString() + ")";
     }
 

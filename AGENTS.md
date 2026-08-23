@@ -12,11 +12,17 @@ Assume the OS used is Windows.
 * Explain the rationale for significant actions: what you did and why.
 
   * When suggesting a Git command, briefly explain what it does.
-  * Add explanatory Javadoc comments to all classes and to nontrivial methods and fields when their purpose or behavior is not obvious.
+  * Follow the project skills named below for Java and Git. Do not substitute a looser style.
   * Make generated code as self-explanatory as possible, and include explanatory comments where they improve understanding.
   * When faced with a design choice, choose the simplest option that is sufficient for the requirements, while briefly explaining relevant more advanced alternatives.
 
 # Project-specific requirements
+
+## Coding standard (mandatory)
+
+All Java in this project MUST follow the SE-EDU Java coding standard (basic + intermediate).
+Before writing or editing any Java file, read and follow `.cursor/skills/seedu-java-coding-standard/SKILL.md`.
+Source: https://se-education.org/guides/conventions/java/intermediate.html
 
 ## Java version:
 
@@ -26,7 +32,7 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 This project uses JUnit 5. Test classes live under `src/test/java` and must mirror the main package and class name (`ekud.task.Todo` is tested by `ekud.task.TodoTest`).
 
-After every code change that affects behaviour, public APIs, error messages, date/command formats, or save-file format, update the matching tests in the same change. Tests must stay green and must still describe the intended behaviour. Do not leave tests failing, skipped, or asserting outdated output.
+After every code change that affects behavior, public APIs, error messages, date/command formats, or save-file format, update the matching tests in the same change. Tests must stay green and must still describe the intended behavior. Do not leave tests failing, skipped, or asserting outdated output.
 
 If you add a new command, task type, parser rule, or storage format, add tests for the success path and the important invalid cases. Run `gradlew test` (Java 25) before considering the change done.
 
@@ -34,8 +40,11 @@ If you add a new command, task type, parser rule, or storage format, add tests f
 
 Create the distributable fat JAR with `gradlew clean shadowJar` (Java 25). The output is `build/libs/ekud.jar`. Do not commit JAR files; they are build artifacts. `/build/` in `.gitignore` already ignores the Gradle output directory.
 
-## Git
+## Git (mandatory)
+
+All future commits MUST follow the SE-EDU Git conventions.
+When proposing or creating a commit or branch, read and follow `.cursor/skills/seedu-git-standard/SKILL.md`.
+Source: https://se-education.org/guides/conventions/git.html
 
 Use lightweight tags unless the user requests an annotated tag.
-When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.

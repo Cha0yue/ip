@@ -19,7 +19,7 @@ public class Parser {
      */
     public static Command parse(String input) throws EkudException {
         if (input == null || input.isBlank()) {
-            throw new EkudException("Please enter a command (" + CommandType.helpList() + ").");
+            throw new EkudException("Please enter a command (" + CommandType.getHelpList() + ").");
         }
 
         String trimmed = input.trim();
@@ -29,7 +29,7 @@ public class Parser {
 
         CommandType commandType = CommandType.fromKeyword(commandWord);
         if (commandType == null) {
-            throw new EkudException("I don't recognise that command. Try " + CommandType.helpList() + ".");
+            throw new EkudException("I don't recognize that command. Try " + CommandType.getHelpList() + ".");
         }
         return commandType.parse(arguments);
     }

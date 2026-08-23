@@ -22,9 +22,9 @@ public class CommandTypeTest {
     }
 
     @Test
-    public void helpList_includesAllKeywords() {
+    public void getHelpList_includesAllKeywords() {
         assertEquals(
                 "todo, deadline, event, list, on, mark, unmark, delete, or bye",
-                CommandType.helpList());
+                CommandType.getHelpList());
     }
 }
