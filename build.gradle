@@ -20,7 +20,21 @@ checkstyle {
 }
 
 dependencies {
+    String javaFxVersion = '17.0.7'
     String jUnitVersion = '5.14.4'
+
+    implementation("org.openjfx:javafx-base:${javaFxVersion}:win")
+    implementation("org.openjfx:javafx-base:${javaFxVersion}:mac")
+    implementation("org.openjfx:javafx-base:${javaFxVersion}:linux")
+    implementation("org.openjfx:javafx-controls:${javaFxVersion}:win")
+    implementation("org.openjfx:javafx-controls:${javaFxVersion}:mac")
+    implementation("org.openjfx:javafx-controls:${javaFxVersion}:linux")
+    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:win")
+    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:mac")
+    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:linux")
+    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:win")
+    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:mac")
+    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:linux")
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${jUnitVersion}"
 
@@ -43,8 +57,9 @@ test {
 }
 
 application {
-    // Tells the application plugin which class contains main(), so `gradlew run` starts Ekud.
-    mainClass = 'ekud.Ekud'
+    // Tells the application plugin which class contains main(), so `gradlew run` starts the GUI.
+    // The CLI remains available via ekud.Ekud.main.
+    mainClass = 'ekud.Launcher'
 }
 
 jar {
@@ -61,7 +76,5 @@ shadowJar {
 }
 
 run {
-    // Needed so `gradlew run` can read chatbot commands from the keyboard.
-    standardInput = System.in
     enableAssertions = true
 }

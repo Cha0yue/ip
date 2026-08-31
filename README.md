@@ -1,6 +1,6 @@
 # Ekud
 
-A command-line task chatbot, started from the CS2103T Duke project template.
+A task chatbot with a JavaFX GUI and a command-line interface, started from the CS2103T Duke project template.
 
 ## AI assistance
 
@@ -17,7 +17,9 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
    1. If there are any further prompts, accept the defaults.
 1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
    In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/ekud/Ekud.java` file, right-click it, and choose `Run 'Ekud.main()'` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see the Ekud banner in the output.
+1. After that, reload the Gradle project so IntelliJ picks up the JavaFX libraries.
+1. Start the GUI with Gradle `run` (or right-click `src/main/java/ekud/Launcher.java` and choose `Run 'Launcher.main()'`). If the setup is correct, a chat window titled Ekud should open.
+1. To use the text interface instead, right-click `src/main/java/ekud/Ekud.java` and choose `Run 'Ekud.main()'`. You should see the Ekud banner in the console.
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
 
@@ -36,10 +38,12 @@ Or in IntelliJ: Gradle tool window → `Tasks` → `shadow` → `shadowJar`. Use
 
 The file is created at `build/libs/ekud.jar`. Do not commit it; `/build/` in `.gitignore` already ignores that folder.
 
-To run it, copy `ekud.jar` into an empty folder, open a terminal in that folder, and run:
+To run the GUI, copy `ekud.jar` into an empty folder, open a terminal in that folder, and run:
 
 ```powershell
 java -jar ekud.jar
 ```
 
 The save file is created as `data/ekud.txt` relative to the folder you run from, not relative to the project source tree.
+
+To start the command-line interface instead, run `ekud.Ekud` from IntelliJ as described above.
