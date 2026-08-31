@@ -24,6 +24,16 @@ All Java in this project MUST follow the SE-EDU Java coding standard (basic + in
 Before writing or editing any Java file, read and follow `.cursor/skills/seedu-java-coding-standard/SKILL.md`.
 Source: https://se-education.org/guides/conventions/java/intermediate.html
 
+## Checkstyle (mandatory)
+
+Style is also enforced by Checkstyle using the AddressBook Level 3 config in `config/checkstyle/`.
+Do not edit those XML files unless the user asks. Do not invent extra house style.
+
+After every Java change, run `gradlew checkstyleMain checkstyleTest` (Java 25) and fix every violation before considering the change done.
+If Checkstyle disagrees with the IntelliJ formatter or a looser reading of the written standard, follow Checkstyle.
+
+Suppress a rule only when there is no reasonable code shape that satisfies it, using `//CHECKSTYLE.OFF: RuleName` / `//CHECKSTYLE.ON: RuleName`.
+
 ## Java version:
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
@@ -34,7 +44,7 @@ This project uses JUnit 5. Test classes live under `src/test/java` and must mirr
 
 After every code change that affects behavior, public APIs, error messages, date/command formats, or save-file format, update the matching tests in the same change. Tests must stay green and must still describe the intended behavior. Do not leave tests failing, skipped, or asserting outdated output.
 
-If you add a new command, task type, parser rule, or storage format, add tests for the success path and the important invalid cases. Run `gradlew test` (Java 25) before considering the change done.
+If you add a new command, task type, parser rule, or storage format, add tests for the success path and the important invalid cases. Run `gradlew test` and `gradlew checkstyleMain checkstyleTest` (Java 25) before considering the change done.
 
 ## Packaging
 
