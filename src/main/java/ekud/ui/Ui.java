@@ -10,8 +10,10 @@ import ekud.task.Task;
 import ekud.task.TaskList;
 
 /**
- * Handles all interaction with the user: reading typed input and printing
- * messages. Keeping I/O here keeps {@link ekud.Ekud} and the commands free of
+ * Handles all interaction with the user.
+ * The CLI variant reads typed input and prints messages. The GUI variant
+ * records the same messages so {@link ekud.Ekud#getResponse} can return them.
+ * Keeping I/O here keeps {@link ekud.Ekud} and the commands free of
  * {@code System.out} calls.
  */
 public class Ui {
@@ -28,27 +30,58 @@ public class Ui {
             """;
 
     private final Scanner scanner;
+    private final boolean isCli;
+    private String lastMessage;
 
     /**
-     * Creates a UI that reads from standard input.
+     * Creates a UI that reads from standard input and prints to standard output.
      */
     public Ui() {
-        this.scanner = new Scanner(System.in);
+        this(true);
+    }
+
+    /**
+     * Creates a UI for either the terminal or the graphical window.
+     *
+     * @param isCli whether messages should be printed to the terminal
+     */
+    private Ui(boolean isCli) {
+        this.isCli = isCli;
+        this.scanner = isCli ? new Scanner(System.in) : null;
+        this.lastMessage = "";
+    }
+
+    /**
+     * Returns a UI that records messages for the GUI and does not use the terminal.
+     *
+     * @return a GUI-oriented UI
+     */
+    public static Ui forGui() {
+        return new Ui(false);
+    }
+
+    /**
+     * Returns the most recent message shown to the user, without CLI dividers.
+     *
+     * @return the last reply text
+     */
+    public String getLastMessage() {
+        return lastMessage;
     }
 
     /**
      * Prints the banner, welcome text, an optional startup joke, and a short
-     * hint about the available commands.
+     * hint about the available commands. The GUI stores the same welcome text
+     * without the ASCII banner.
      */
     public void showWelcome() {
+        lastMessage = buildWelcomeBody();
+        if (!isCli) {
+            return;
+        }
         printDivider();
         System.out.print(BANNER);
-        System.out.println("Hello! I'm " + NAME + ".");
-        printStartupJoke();
-        System.out.println();
-        System.out.println("Add a task with todo, deadline, or event.");
-        System.out.println("Other commands: list, on <date>, find <keyword>, mark <number>, "
-                + "unmark <number>, delete <number>, bye.");
+        System.out.println(lastMessage);
         printDivider();
     }
 
@@ -56,6 +89,9 @@ public class Ui {
      * Prints a prompt so it is clear the chatbot is waiting for typed input.
      */
     public void showPrompt() {
+        if (!isCli) {
+            return;
+        }
         System.out.print("> ");
         System.out.flush();
     }
@@ -68,7 +104,7 @@ public class Ui {
      * @return the line typed by the user, or {@code bye} on end of input
      */
     public String readCommand() {
-        if (!scanner.hasNextLine()) {
+        if (scanner == null || !scanner.hasNextLine()) {
             return "bye";
         }
         return scanner.nextLine();
@@ -81,12 +117,8 @@ public class Ui {
      * @param taskCount number of tasks after the add
      */
     public void showAdded(Task task, int taskCount) {
-        printDivider();
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        String noun = taskCount == 1 ? "task" : "tasks";
-        System.out.println("Now you have " + taskCount + " " + noun + " in the list.");
-        printDivider();
+        display("Got it. I've added this task:\n  " + task + "\n"
+                + "Now you have " + taskCount + " " + taskNoun(taskCount) + " in the list.");
     }
 
     /**
@@ -95,16 +127,15 @@ public class Ui {
      * @param tasks the list to display
      */
     public void showTaskList(TaskList tasks) {
-        printDivider();
         if (tasks.isEmpty()) {
-            System.out.println("Your task list is empty.");
-        } else {
-            System.out.println("Here are the tasks in your list:");
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + ". " + tasks.get(i));
-            }
+            display("Your task list is empty.");
+            return;
         }
-        printDivider();
+        StringBuilder message = new StringBuilder("Here are the tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            message.append('\n').append(i + 1).append(". ").append(tasks.get(i));
+        }
+        display(message.toString());
     }
 
     /**
@@ -115,17 +146,16 @@ public class Ui {
      * @param matches tasks that occur on that date, already filtered
      */
     public void showTasksOn(LocalDate date, List<Task> matches) {
-        printDivider();
         String formatted = date.format(DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH));
         if (matches.isEmpty()) {
-            System.out.println("No deadlines or events on " + formatted + ".");
-        } else {
-            System.out.println("Here are the deadlines/events on " + formatted + ":");
-            for (int i = 0; i < matches.size(); i++) {
-                System.out.println((i + 1) + ". " + matches.get(i));
-            }
+            display("No deadlines or events on " + formatted + ".");
+            return;
         }
-        printDivider();
+        StringBuilder message = new StringBuilder("Here are the deadlines/events on ")
+                .append(formatted)
+                .append(':');
+        appendNumberedTasks(message, matches);
+        display(message.toString());
     }
 
     /**
@@ -136,16 +166,13 @@ public class Ui {
      * @param matches tasks that contain the keyword, already filtered
      */
     public void showFound(String keyword, List<Task> matches) {
-        printDivider();
         if (matches.isEmpty()) {
-            System.out.println("No tasks matching \"" + keyword + "\".");
-        } else {
-            System.out.println("Here are the matching tasks in your list:");
-            for (int i = 0; i < matches.size(); i++) {
-                System.out.println((i + 1) + ". " + matches.get(i));
-            }
+            display("No tasks matching \"" + keyword + "\".");
+            return;
         }
-        printDivider();
+        StringBuilder message = new StringBuilder("Here are the matching tasks in your list:");
+        appendNumberedTasks(message, matches);
+        display(message.toString());
     }
 
     /**
@@ -155,12 +182,8 @@ public class Ui {
      * @param taskCount number of tasks after the delete
      */
     public void showDeleted(Task task, int taskCount) {
-        printDivider();
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("  " + task);
-        String noun = taskCount == 1 ? "task" : "tasks";
-        System.out.println("Now you have " + taskCount + " " + noun + " in the list.");
-        printDivider();
+        display("Noted. I've removed this task:\n  " + task + "\n"
+                + "Now you have " + taskCount + " " + taskNoun(taskCount) + " in the list.");
     }
 
     /**
@@ -169,10 +192,7 @@ public class Ui {
      * @param task the task that was just marked
      */
     public void showMarked(Task task) {
-        printDivider();
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("  " + task);
-        printDivider();
+        display("Nice! I've marked this task as done:\n  " + task);
     }
 
     /**
@@ -181,19 +201,14 @@ public class Ui {
      * @param task the task that was just unmarked
      */
     public void showUnmarked(Task task) {
-        printDivider();
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println("  " + task);
-        printDivider();
+        display("OK, I've marked this task as not done yet:\n  " + task);
     }
 
     /**
      * Prints the goodbye message.
      */
     public void showGoodbye() {
-        printDivider();
-        System.out.println("Bye. Hope to see you again soon!");
-        printDivider();
+        display("Bye. Hope to see you again soon!");
     }
 
     /**
@@ -202,28 +217,71 @@ public class Ui {
      * @param message explanation of what went wrong
      */
     public void showError(String message) {
-        printDivider();
-        System.out.println(message);
-        printDivider();
+        display(message);
     }
 
     /**
      * Closes the input scanner. Call this when the command loop ends.
      */
     public void close() {
-        scanner.close();
+        if (scanner != null) {
+            scanner.close();
+        }
     }
 
     /**
-     * Prints a dad joke from API Ninjas if one was fetched.
-     * If the request fails (for example the API limit is exceeded), nothing is
-     * printed so the greeting continues as usual.
+     * Records {@code message} as the latest reply. Prints it with dividers when
+     * using the CLI.
+     *
+     * @param message text to show the user
      */
-    private void printStartupJoke() {
+    private void display(String message) {
+        lastMessage = message;
+        if (isCli) {
+            printDivider();
+            System.out.println(message);
+            printDivider();
+        }
+    }
+
+    /**
+     * Returns the welcome text without the ASCII banner or CLI dividers.
+     *
+     * @return greeting, optional joke, and command hint
+     */
+    private String buildWelcomeBody() {
+        StringBuilder body = new StringBuilder("Hello! I'm ").append(NAME).append('.');
         String joke = DadJokeFetcher.fetch();
         if (joke != null) {
-            System.out.println(joke);
+            body.append('\n').append(joke);
         }
+        body.append("\n\n")
+                .append("Add a task with todo, deadline, or event.\n")
+                .append("Other commands: list, on <date>, find <keyword>, mark <number>, ")
+                .append("unmark <number>, delete <number>, bye.");
+        return body.toString();
+    }
+
+    /**
+     * Appends {@code matches} as a 1-based numbered list, one task per line.
+     *
+     * @param message builder to append to
+     * @param matches tasks to list
+     */
+    private static void appendNumberedTasks(StringBuilder message, List<Task> matches) {
+        for (int i = 0; i < matches.size(); i++) {
+            message.append('\n').append(i + 1).append(". ").append(matches.get(i));
+        }
+    }
+
+    /**
+     * Returns the singular or plural noun for a task count.
+     *
+     * @param taskCount number of tasks
+     * @return {@code task} or {@code tasks}
+     */
+    private static String taskNoun(int taskCount) {
+        return taskCount == 1 ? "task" : "tasks";
     }
 
     /**
