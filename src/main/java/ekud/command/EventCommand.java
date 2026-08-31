@@ -21,6 +21,19 @@ public class EventCommand implements TaskCreatingCommand {
     private final TaskDateTime to;
 
     /**
+     * Creates a command that will add an event.
+     *
+     * @param description text of the event to add
+     * @param from        start date or date-time
+     * @param to          end date or date-time
+     */
+    private EventCommand(String description, TaskDateTime from, TaskDateTime to) {
+        this.description = description;
+        this.from = from;
+        this.to = to;
+    }
+
+    /**
      * Parses {@code event DESCRIPTION /from START /to END}.
      * {@code START} and {@code END} must be supported dates or date-times,
      * for example {@code 2019-12-02 1400}.
@@ -79,19 +92,6 @@ public class EventCommand implements TaskCreatingCommand {
             return false;
         }
         return from.toLocalTime().isAfter(to.toLocalTime());
-    }
-
-    /**
-     * Creates a command that will add an event.
-     *
-     * @param description text of the event to add
-     * @param from        start date or date-time
-     * @param to          end date or date-time
-     */
-    private EventCommand(String description, TaskDateTime from, TaskDateTime to) {
-        this.description = description;
-        this.from = from;
-        this.to = to;
     }
 
     /**

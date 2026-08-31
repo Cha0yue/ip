@@ -14,6 +14,15 @@ public class DeleteCommand implements Command {
     private final int oneBasedIndex;
 
     /**
+     * Creates a command that will delete the given task.
+     *
+     * @param oneBasedIndex task number as shown in the list, starting from 1
+     */
+    private DeleteCommand(int oneBasedIndex) {
+        this.oneBasedIndex = oneBasedIndex;
+    }
+
+    /**
      * Parses {@code delete INDEX}.
      *
      * @param arguments text after the command word
@@ -22,15 +31,6 @@ public class DeleteCommand implements Command {
      */
     public static DeleteCommand parse(String arguments) throws EkudException {
         return new DeleteCommand(Parser.parseOneBasedIndex("delete", arguments));
-    }
-
-    /**
-     * Creates a command that will delete the given task.
-     *
-     * @param oneBasedIndex task number as shown in the list, starting from 1
-     */
-    private DeleteCommand(int oneBasedIndex) {
-        this.oneBasedIndex = oneBasedIndex;
     }
 
     /**

@@ -14,6 +14,15 @@ public class MarkCommand implements Command {
     private final int oneBasedIndex;
 
     /**
+     * Creates a command that will mark the given task as done.
+     *
+     * @param oneBasedIndex task number as shown in the list, starting from 1
+     */
+    private MarkCommand(int oneBasedIndex) {
+        this.oneBasedIndex = oneBasedIndex;
+    }
+
+    /**
      * Parses {@code mark INDEX}.
      *
      * @param arguments text after the command word
@@ -22,15 +31,6 @@ public class MarkCommand implements Command {
      */
     public static MarkCommand parse(String arguments) throws EkudException {
         return new MarkCommand(Parser.parseOneBasedIndex("mark", arguments));
-    }
-
-    /**
-     * Creates a command that will mark the given task as done.
-     *
-     * @param oneBasedIndex task number as shown in the list, starting from 1
-     */
-    private MarkCommand(int oneBasedIndex) {
-        this.oneBasedIndex = oneBasedIndex;
     }
 
     /**

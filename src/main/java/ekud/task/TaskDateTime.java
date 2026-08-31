@@ -27,7 +27,7 @@ public final class TaskDateTime {
     };
 
     private static final DateTimeFormatter[] DATE_FORMATTERS = {
-            DateTimeFormatter.ISO_LOCAL_DATE,
+            DateTimeFormatter.ofPattern("yyyy-MM-dd"),
             DateTimeFormatter.ofPattern("d/M/yyyy")
     };
 
@@ -40,6 +40,11 @@ public final class TaskDateTime {
 
     private final LocalDate date;
     private final LocalTime time;
+
+    private TaskDateTime(LocalDate date, LocalTime time) {
+        this.date = date;
+        this.time = time;
+    }
 
     /**
      * Parses a date or date-time. Supported forms include {@code yyyy-MM-dd},
@@ -71,11 +76,6 @@ public final class TaskDateTime {
             }
         }
         throw new EkudException(USAGE);
-    }
-
-    private TaskDateTime(LocalDate date, LocalTime time) {
-        this.date = date;
-        this.time = time;
     }
 
     /**

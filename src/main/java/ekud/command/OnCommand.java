@@ -18,6 +18,15 @@ public class OnCommand implements Command {
     private final LocalDate date;
 
     /**
+     * Creates a command that will list dated tasks on {@code date}.
+     *
+     * @param date the calendar date to match
+     */
+    private OnCommand(LocalDate date) {
+        this.date = date;
+    }
+
+    /**
      * Parses {@code on DATE}, where {@code DATE} uses the same formats as
      * deadline and event dates. Only the calendar date is used for matching.
      *
@@ -31,15 +40,6 @@ public class OnCommand implements Command {
         }
         TaskDateTime when = TaskDateTime.parse(arguments);
         return new OnCommand(when.toLocalDate());
-    }
-
-    /**
-     * Creates a command that will list dated tasks on {@code date}.
-     *
-     * @param date the calendar date to match
-     */
-    private OnCommand(LocalDate date) {
-        this.date = date;
     }
 
     /**

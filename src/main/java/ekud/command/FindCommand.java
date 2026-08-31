@@ -16,6 +16,15 @@ public class FindCommand implements Command {
     private final String keyword;
 
     /**
+     * Creates a command that will search descriptions for {@code keyword}.
+     *
+     * @param keyword the text to look for
+     */
+    private FindCommand(String keyword) {
+        this.keyword = keyword;
+    }
+
+    /**
      * Parses {@code find KEYWORD}. Extra words are treated as part of the
      * search text, so {@code find read book} looks for {@code read book}.
      *
@@ -28,15 +37,6 @@ public class FindCommand implements Command {
             throw new EkudException("Please provide a keyword, e.g. find book.");
         }
         return new FindCommand(arguments.trim());
-    }
-
-    /**
-     * Creates a command that will search descriptions for {@code keyword}.
-     *
-     * @param keyword the text to look for
-     */
-    private FindCommand(String keyword) {
-        this.keyword = keyword;
     }
 
     /**

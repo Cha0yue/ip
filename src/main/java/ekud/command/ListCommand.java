@@ -11,6 +11,9 @@ import ekud.ui.Ui;
  * This command does not take arguments.
  */
 public class ListCommand implements Command {
+    private ListCommand() {
+    }
+
     /**
      * Parses {@code list} with no extra text.
      *
@@ -21,9 +24,6 @@ public class ListCommand implements Command {
     public static ListCommand parse(String arguments) throws EkudException {
         Parser.requireNoArguments("list", arguments);
         return new ListCommand();
-    }
-
-    private ListCommand() {
     }
 
     /**
