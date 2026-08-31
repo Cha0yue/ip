@@ -11,6 +11,9 @@ import ekud.ui.Ui;
  * This command does not take arguments.
  */
 public class ByeCommand implements Command {
+    private ByeCommand() {
+    }
+
     /**
      * Parses {@code bye} with no extra text.
      *
@@ -21,9 +24,6 @@ public class ByeCommand implements Command {
     public static ByeCommand parse(String arguments) throws EkudException {
         Parser.requireNoArguments("bye", arguments);
         return new ByeCommand();
-    }
-
-    private ByeCommand() {
     }
 
     /**

@@ -19,6 +19,17 @@ public class DeadlineCommand implements TaskCreatingCommand {
     private final TaskDateTime by;
 
     /**
+     * Creates a command that will add a deadline.
+     *
+     * @param description text of the deadline to add
+     * @param by          due date or date-time
+     */
+    private DeadlineCommand(String description, TaskDateTime by) {
+        this.description = description;
+        this.by = by;
+    }
+
+    /**
      * Parses {@code deadline DESCRIPTION /by WHEN}.
      * {@code WHEN} must be a supported date or date-time, for example
      * {@code 2019-12-02} or {@code 2/12/2019 1800}.
@@ -46,17 +57,6 @@ public class DeadlineCommand implements TaskCreatingCommand {
                     "Please provide a date/time after /by, e.g. deadline return book /by 2019-12-02.");
         }
         return new DeadlineCommand(description, TaskDateTime.parse(byText));
-    }
-
-    /**
-     * Creates a command that will add a deadline.
-     *
-     * @param description text of the deadline to add
-     * @param by          due date or date-time
-     */
-    private DeadlineCommand(String description, TaskDateTime by) {
-        this.description = description;
-        this.by = by;
     }
 
     /**

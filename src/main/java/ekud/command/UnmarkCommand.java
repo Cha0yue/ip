@@ -14,6 +14,15 @@ public class UnmarkCommand implements Command {
     private final int oneBasedIndex;
 
     /**
+     * Creates a command that will mark the given task as not done.
+     *
+     * @param oneBasedIndex task number as shown in the list, starting from 1
+     */
+    private UnmarkCommand(int oneBasedIndex) {
+        this.oneBasedIndex = oneBasedIndex;
+    }
+
+    /**
      * Parses {@code unmark INDEX}.
      *
      * @param arguments text after the command word
@@ -22,15 +31,6 @@ public class UnmarkCommand implements Command {
      */
     public static UnmarkCommand parse(String arguments) throws EkudException {
         return new UnmarkCommand(Parser.parseOneBasedIndex("unmark", arguments));
-    }
-
-    /**
-     * Creates a command that will mark the given task as not done.
-     *
-     * @param oneBasedIndex task number as shown in the list, starting from 1
-     */
-    private UnmarkCommand(int oneBasedIndex) {
-        this.oneBasedIndex = oneBasedIndex;
     }
 
     /**

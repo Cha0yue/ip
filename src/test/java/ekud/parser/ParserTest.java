@@ -130,24 +130,24 @@ public class ParserTest {
 
     @Test
     public void parse_eventEndBeforeStart_throwsEkudException() {
-        EkudException exception = assertThrows(EkudException.class,
-                () -> Parser.parse("event meeting /from 2019-12-02 1600 /to 2019-12-02 1400"));
+        EkudException exception = assertThrows(EkudException.class, () -> Parser.parse(
+                "event meeting /from 2019-12-02 1600 /to 2019-12-02 1400"));
         assertEquals("The event end date/time cannot be before the start date/time.",
                 exception.getMessage());
     }
 
     @Test
     public void parseOneBasedIndex_missingOrInvalid_throwsEkudException() {
-        EkudException missing = assertThrows(EkudException.class,
-                () -> Parser.parseOneBasedIndex("mark", ""));
+        EkudException missing = assertThrows(EkudException.class, () ->
+                Parser.parseOneBasedIndex("mark", ""));
         assertEquals("Please provide a task number, e.g. mark 1.", missing.getMessage());
 
-        EkudException extra = assertThrows(EkudException.class,
-                () -> Parser.parseOneBasedIndex("delete", "1 2"));
+        EkudException extra = assertThrows(EkudException.class, () ->
+                Parser.parseOneBasedIndex("delete", "1 2"));
         assertEquals("The \"delete\" command takes exactly one task number.", extra.getMessage());
 
-        EkudException notNumber = assertThrows(EkudException.class,
-                () -> Parser.parseOneBasedIndex("unmark", "abc"));
+        EkudException notNumber = assertThrows(EkudException.class, () ->
+                Parser.parseOneBasedIndex("unmark", "abc"));
         assertEquals("Task number must be an integer, e.g. unmark 1.", notNumber.getMessage());
     }
 

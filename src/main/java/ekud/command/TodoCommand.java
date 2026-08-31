@@ -14,6 +14,15 @@ public class TodoCommand implements TaskCreatingCommand {
     private final String description;
 
     /**
+     * Creates a command that will add a todo with the given description.
+     *
+     * @param description text of the todo to add
+     */
+    private TodoCommand(String description) {
+        this.description = description;
+    }
+
+    /**
      * Parses {@code todo DESCRIPTION}.
      *
      * @param arguments text after the command word
@@ -25,15 +34,6 @@ public class TodoCommand implements TaskCreatingCommand {
             throw new EkudException("The description of a todo cannot be empty.");
         }
         return new TodoCommand(arguments.trim());
-    }
-
-    /**
-     * Creates a command that will add a todo with the given description.
-     *
-     * @param description text of the todo to add
-     */
-    private TodoCommand(String description) {
-        this.description = description;
     }
 
     /**
