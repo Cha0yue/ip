@@ -141,6 +141,7 @@ public class Storage {
             }
             return task;
         } catch (EkudException e) {
+            // A corrupt line is skipped so one bad row does not discard the rest of the file.
             return null;
         }
     }
