@@ -87,8 +87,7 @@ public class Ekud {
             ui.showPrompt();
             String input = ui.readCommand();
             try {
-                Command command = Parser.parse(input);
-                command.execute(tasks, ui, storage);
+                Command command = executeInput(input);
                 isRunning = !command.isExit();
             } catch (EkudException e) {
                 ui.showError(e.getMessage());
@@ -121,8 +120,7 @@ public class Ekud {
      */
     public String getResponse(String input) {
         try {
-            Command command = Parser.parse(input);
-            command.execute(tasks, ui, storage);
+            Command command = executeInput(input);
             isExit = command.isExit();
             lastCommandType = toDialogStyle(command);
             return ui.getLastMessage();
@@ -151,6 +149,19 @@ public class Ekud {
      */
     public String getCommandType() {
         return lastCommandType;
+    }
+
+    /**
+     * Parses one line and runs it against the task list.
+     *
+     * @param input the line typed by the user
+     * @return the command that ran
+     * @throws EkudException if parsing or execution fails
+     */
+    private Command executeInput(String input) throws EkudException {
+        Command command = Parser.parse(input);
+        command.execute(tasks, ui, storage);
+        return command;
     }
 
     /**
