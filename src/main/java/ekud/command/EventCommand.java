@@ -6,8 +6,6 @@ import ekud.storage.Storage;
 import ekud.task.Event;
 import ekud.task.Task;
 import ekud.task.TaskDateTime;
-import ekud.task.TaskList;
-import ekud.ui.Ui;
 
 /**
  * Adds an {@link Event} to the task list.
@@ -103,21 +101,5 @@ public class EventCommand implements TaskCreatingCommand {
     @Override
     public Task createTask() {
         return new Event(description, from, to);
-    }
-
-    /**
-     * Adds the event to {@code tasks}, saves the list, and shows a confirmation.
-     *
-     * @param tasks   the list to add to
-     * @param ui      used to show the confirmation
-     * @param storage used to persist the updated list
-     * @throws EkudException if the list cannot be saved
-     */
-    @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws EkudException {
-        Task task = createTask();
-        tasks.add(task);
-        storage.save(tasks);
-        ui.showAdded(task, tasks.size());
     }
 }
