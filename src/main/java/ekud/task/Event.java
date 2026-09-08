@@ -18,6 +18,12 @@ public class Event extends Task {
      */
     public Event(String description, TaskDateTime from, TaskDateTime to) {
         super(description);
+        // Parser validates both flags before constructing; a missing date is a programming error.
+        assert from != null : "Event start date/time must be provided";
+        assert to != null : "Event end date/time must be provided";
+        // Parser also rejects an inverted range; this documents that invariant at construction.
+        assert !to.toLocalDate().isBefore(from.toLocalDate())
+                : "Event end date should not be before the start date";
         this.from = from;
         this.to = to;
     }

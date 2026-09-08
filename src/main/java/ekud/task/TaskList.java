@@ -27,6 +27,8 @@ public class TaskList {
      * @param loadedTasks tasks read from disk, in the order they should appear
      */
     public TaskList(List<Task> loadedTasks) {
+        // Storage returns a list (possibly empty), never null; a null here is a caller bug.
+        assert loadedTasks != null : "Loaded tasks must not be null; pass an empty list instead";
         this.tasks = new ArrayList<>(loadedTasks);
     }
 
@@ -36,6 +38,8 @@ public class TaskList {
      * @param task the task to add
      */
     public void add(Task task) {
+        // Commands construct a Task before adding; a null entry would break later lookups.
+        assert task != null : "Cannot add a null task";
         tasks.add(task);
     }
 
@@ -60,7 +64,10 @@ public class TaskList {
         if (index < 1 || index > tasks.size()) {
             throw new EkudException("Task number " + index + " does not exist.");
         }
-        return tasks.get(index - 1);
+        Task task = tasks.get(index - 1);
+        // Tasks are only inserted through add(), which rejects null.
+        assert task != null : "Task list should not contain null entries";
+        return task;
     }
 
     /**
