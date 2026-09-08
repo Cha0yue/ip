@@ -2,6 +2,7 @@ package ekud.task;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import ekud.EkudException;
@@ -10,7 +11,7 @@ import ekud.EkudException;
  * In-memory list of {@link Task} objects.
  * There is no hard size limit.
  */
-public class TaskList {
+public class TaskList implements Iterable<Task> {
     private final ArrayList<Task> tasks;
 
     /**
@@ -93,6 +94,16 @@ public class TaskList {
      */
     public boolean isEmpty() {
         return tasks.isEmpty();
+    }
+
+    /**
+     * Returns an iterator over the tasks in list order.
+     *
+     * @return an iterator over this list
+     */
+    @Override
+    public Iterator<Task> iterator() {
+        return tasks.iterator();
     }
 
     /**

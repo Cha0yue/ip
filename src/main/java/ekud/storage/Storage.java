@@ -90,8 +90,8 @@ public class Storage {
                 Files.createDirectories(parent);
             }
             List<String> lines = new ArrayList<>();
-            for (int i = 0; i < tasks.size(); i++) {
-                lines.add(toSaveLine(tasks.get(i)));
+            for (Task task : tasks) {
+                lines.add(toSaveLine(task));
             }
             Files.write(path, lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
