@@ -30,7 +30,7 @@ public class MarkCommand implements Command {
      * @throws EkudException if the index is missing, not an integer, or extra text is present
      */
     public static MarkCommand parse(String arguments) throws EkudException {
-        return new MarkCommand(Parser.parseOneBasedIndex("mark", arguments));
+        return new MarkCommand(Parser.parseOneBasedIndex(CommandType.MARK.getKeyword(), arguments));
     }
 
     /**

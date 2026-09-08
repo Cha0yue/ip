@@ -30,7 +30,7 @@ public class DeleteCommand implements Command {
      * @throws EkudException if the index is missing, not an integer, or extra text is present
      */
     public static DeleteCommand parse(String arguments) throws EkudException {
-        return new DeleteCommand(Parser.parseOneBasedIndex("delete", arguments));
+        return new DeleteCommand(Parser.parseOneBasedIndex(CommandType.DELETE.getKeyword(), arguments));
     }
 
     /**

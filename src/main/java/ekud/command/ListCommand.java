@@ -22,7 +22,7 @@ public class ListCommand implements Command {
      * @throws EkudException if extra arguments are present
      */
     public static ListCommand parse(String arguments) throws EkudException {
-        Parser.requireNoArguments("list", arguments);
+        Parser.requireNoArguments(CommandType.LIST.getKeyword(), arguments);
         return new ListCommand();
     }
 

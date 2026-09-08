@@ -30,7 +30,7 @@ public class UnmarkCommand implements Command {
      * @throws EkudException if the index is missing, not an integer, or extra text is present
      */
     public static UnmarkCommand parse(String arguments) throws EkudException {
-        return new UnmarkCommand(Parser.parseOneBasedIndex("unmark", arguments));
+        return new UnmarkCommand(Parser.parseOneBasedIndex(CommandType.UNMARK.getKeyword(), arguments));
     }
 
     /**

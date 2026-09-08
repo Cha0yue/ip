@@ -22,7 +22,7 @@ public class ByeCommand implements Command {
      * @throws EkudException if extra arguments are present
      */
     public static ByeCommand parse(String arguments) throws EkudException {
-        Parser.requireNoArguments("bye", arguments);
+        Parser.requireNoArguments(CommandType.BYE.getKeyword(), arguments);
         return new ByeCommand();
     }
 
