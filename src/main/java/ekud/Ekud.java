@@ -8,6 +8,7 @@ import ekud.command.UnmarkCommand;
 import ekud.parser.Parser;
 import ekud.storage.Storage;
 import ekud.task.TaskList;
+import ekud.ui.DialogStyle;
 import ekud.ui.Ui;
 
 /**
@@ -28,7 +29,7 @@ public class Ekud {
      */
     private final String startupError;
     private boolean isExit;
-    private String lastCommandType;
+    private DialogStyle lastDialogStyle;
 
     /**
      * Creates a chatbot and loads tasks from {@link Storage#DEFAULT_PATH}.
@@ -51,7 +52,7 @@ public class Ekud {
         this.ui = ui;
         this.storage = storage;
         this.isExit = false;
-        this.lastCommandType = "";
+        this.lastDialogStyle = DialogStyle.NONE;
         String error = null;
         TaskList loaded;
         try {
@@ -122,10 +123,10 @@ public class Ekud {
         try {
             Command command = executeInput(input);
             isExit = command.isExit();
-            lastCommandType = toDialogStyle(command);
+            lastDialogStyle = toDialogStyle(command);
             return ui.getLastMessage();
         } catch (EkudException e) {
-            lastCommandType = "";
+            lastDialogStyle = DialogStyle.NONE;
             ui.showError(e.getMessage());
             return ui.getLastMessage();
         }
@@ -141,14 +142,13 @@ public class Ekud {
     }
 
     /**
-     * Returns a style key for the last successful command, used to tint reply
-     * bubbles. Empty when the last input was invalid or unstyled.
+     * Returns the dialog-bubble style for the last successful command.
+     * {@link DialogStyle#NONE} when the last input was invalid or unstyled.
      *
-     * @return {@code AddCommand}, {@code ChangeMarkCommand}, {@code DeleteCommand},
-     *         or an empty string
+     * @return the style for the latest reply
      */
-    public String getCommandType() {
-        return lastCommandType;
+    public DialogStyle getDialogStyle() {
+        return lastDialogStyle;
     }
 
     /**
@@ -165,21 +165,21 @@ public class Ekud {
     }
 
     /**
-     * Maps a command to the dialog-box style names used in the JavaFX tutorial.
+     * Maps a command to the reply-bubble style used by the GUI.
      *
      * @param command the command that just ran
-     * @return a style key, or an empty string
+     * @return the matching style, or {@link DialogStyle#NONE}
      */
-    private static String toDialogStyle(Command command) {
+    private static DialogStyle toDialogStyle(Command command) {
         if (command instanceof TaskCreatingCommand) {
-            return "AddCommand";
+            return DialogStyle.ADD;
         }
         if (command instanceof MarkCommand || command instanceof UnmarkCommand) {
-            return "ChangeMarkCommand";
+            return DialogStyle.CHANGE_MARK;
         }
         if (command instanceof DeleteCommand) {
-            return "DeleteCommand";
+            return DialogStyle.DELETE;
         }
-        return "";
+        return DialogStyle.NONE;
     }
 }
