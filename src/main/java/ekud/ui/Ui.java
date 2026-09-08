@@ -1,12 +1,11 @@
 package ekud.ui;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 import ekud.task.Task;
+import ekud.task.TaskDateTime;
 import ekud.task.TaskList;
 
 /**
@@ -144,7 +143,7 @@ public class Ui {
      * @param matches tasks that occur on that date, already filtered
      */
     public void showTasksOn(LocalDate date, List<Task> matches) {
-        String formatted = date.format(DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH));
+        String formatted = TaskDateTime.toDisplayDate(date);
         if (matches.isEmpty()) {
             display("No deadlines or events on " + formatted + ".");
             return;
