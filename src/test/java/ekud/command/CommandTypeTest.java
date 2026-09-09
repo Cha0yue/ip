@@ -13,6 +13,7 @@ public class CommandTypeTest {
     public void fromKeyword_knownWord_returnsType() {
         assertEquals(CommandType.TODO, CommandType.fromKeyword("todo"));
         assertEquals(CommandType.FIND, CommandType.fromKeyword("find"));
+        assertEquals(CommandType.HELP, CommandType.fromKeyword("help"));
         assertEquals(CommandType.BYE, CommandType.fromKeyword("bye"));
     }
 
@@ -25,7 +26,7 @@ public class CommandTypeTest {
     @Test
     public void getHelpList_includesAllKeywords() {
         assertEquals(
-                "todo, deadline, event, list, on, find, mark, unmark, delete, or bye",
+                "todo, deadline, event, list, on, find, mark, unmark, delete, help, or bye",
                 CommandType.getHelpList());
     }
 }

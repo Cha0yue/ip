@@ -15,6 +15,7 @@ import ekud.command.CommandType;
 import ekud.command.DeadlineCommand;
 import ekud.command.EventCommand;
 import ekud.command.FindCommand;
+import ekud.command.HelpCommand;
 import ekud.command.ListCommand;
 import ekud.command.MarkCommand;
 import ekud.command.TaskCreatingCommand;
@@ -63,6 +64,19 @@ public class ParserTest {
         assertInstanceOf(ByeCommand.class, bye);
         assertTrue(bye.isExit());
         assertFalse(Parser.parse("list").isExit());
+    }
+
+    @Test
+    public void parse_help_success() throws EkudException {
+        Command command = Parser.parse("help");
+        assertInstanceOf(HelpCommand.class, command);
+        assertFalse(command.isExit());
+    }
+
+    @Test
+    public void parse_helpWithArguments_throwsEkudException() {
+        EkudException exception = assertThrows(EkudException.class, () -> Parser.parse("help me"));
+        assertEquals("The \"help\" command does not take any arguments.", exception.getMessage());
     }
 
     @Test

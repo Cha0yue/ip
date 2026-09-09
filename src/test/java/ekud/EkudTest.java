@@ -42,6 +42,18 @@ public class EkudTest {
     }
 
     @Test
+    public void getResponse_help_returnsCommandGuide() {
+        Ekud ekud = newChatbot();
+        String response = ekud.getResponse("help");
+        assertTrue(response.contains("Here are the commands I understand:"));
+        assertTrue(response.contains("todo DESCRIPTION"));
+        assertTrue(response.contains("deadline DESCRIPTION /by DATE"));
+        assertTrue(response.contains("Type help anytime to see this guide again."));
+        assertEquals(DialogStyle.NONE, ekud.getDialogStyle());
+        assertFalse(ekud.isExit());
+    }
+
+    @Test
     public void getResponse_listWhenEmpty_returnsEmptyMessage() {
         Ekud ekud = newChatbot();
         assertEquals("Your task list is empty.", ekud.getResponse("list"));
