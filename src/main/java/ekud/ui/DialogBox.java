@@ -53,26 +53,13 @@ public class DialogBox extends HBox {
     /**
      * Tints the reply bubble based on the command that produced it.
      *
-     * @param commandType style key from {@link ekud.Ekud#getCommandType}
+     * @param dialogStyle style chosen from {@link ekud.Ekud#getDialogStyle}
      */
-    private void changeDialogStyle(String commandType) {
-        if (commandType == null || commandType.isBlank()) {
+    private void changeDialogStyle(DialogStyle dialogStyle) {
+        if (dialogStyle == null || dialogStyle == DialogStyle.NONE) {
             return;
         }
-
-        switch (commandType) {
-            case "AddCommand":
-                dialog.getStyleClass().add("add-label");
-                break;
-            case "ChangeMarkCommand":
-                dialog.getStyleClass().add("marked-label");
-                break;
-            case "DeleteCommand":
-                dialog.getStyleClass().add("delete-label");
-                break;
-            default:
-                break;
-        }
+        dialog.getStyleClass().add(dialogStyle.getCssClass());
     }
 
     /**
@@ -91,13 +78,13 @@ public class DialogBox extends HBox {
      *
      * @param text        reply text
      * @param img         Ekud avatar
-     * @param commandType style key used to tint the bubble
+     * @param dialogStyle style used to tint the bubble
      * @return a flipped dialog box
      */
-    public static DialogBox getEkudDialog(String text, Image img, String commandType) {
+    public static DialogBox getEkudDialog(String text, Image img, DialogStyle dialogStyle) {
         DialogBox dialogBox = new DialogBox(text, img);
         dialogBox.flip();
-        dialogBox.changeDialogStyle(commandType);
+        dialogBox.changeDialogStyle(dialogStyle);
         return dialogBox;
     }
 }

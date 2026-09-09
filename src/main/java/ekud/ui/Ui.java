@@ -1,12 +1,11 @@
 package ekud.ui;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 import ekud.task.Task;
+import ekud.task.TaskDateTime;
 import ekud.task.TaskList;
 
 /**
@@ -132,9 +131,7 @@ public class Ui {
             return;
         }
         StringBuilder message = new StringBuilder("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            message.append('\n').append(i + 1).append(". ").append(tasks.get(i));
-        }
+        appendNumberedTasks(message, tasks);
         display(message.toString());
     }
 
@@ -146,7 +143,7 @@ public class Ui {
      * @param matches tasks that occur on that date, already filtered
      */
     public void showTasksOn(LocalDate date, List<Task> matches) {
-        String formatted = date.format(DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH));
+        String formatted = TaskDateTime.toDisplayDate(date);
         if (matches.isEmpty()) {
             display("No deadlines or events on " + formatted + ".");
             return;
@@ -268,9 +265,11 @@ public class Ui {
      * @param message builder to append to
      * @param matches tasks to list
      */
-    private static void appendNumberedTasks(StringBuilder message, List<Task> matches) {
-        for (int i = 0; i < matches.size(); i++) {
-            message.append('\n').append(i + 1).append(". ").append(matches.get(i));
+    private static void appendNumberedTasks(StringBuilder message, Iterable<Task> matches) {
+        int number = 1;
+        for (Task task : matches) {
+            message.append('\n').append(number).append(". ").append(task);
+            number++;
         }
     }
 

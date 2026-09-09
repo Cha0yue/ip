@@ -116,6 +116,17 @@ public final class TaskDateTime {
     }
 
     /**
+     * Returns {@code date} in the same display form as date-only tasks,
+     * for example {@code Dec 02 2019}.
+     *
+     * @param date the calendar date to format
+     * @return the display text
+     */
+    public static String toDisplayDate(LocalDate date) {
+        return date.format(DISPLAY_DATE);
+    }
+
+    /**
      * Returns a human-readable form such as {@code Dec 02 2019} or
      * {@code Dec 02 2019, 6:00 PM}.
      *

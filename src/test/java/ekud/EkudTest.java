@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import ekud.storage.Storage;
+import ekud.ui.DialogStyle;
 import ekud.ui.Ui;
 
 /**
@@ -27,7 +28,7 @@ public class EkudTest {
         assertTrue(response.contains("Got it. I've added this task:"));
         assertTrue(response.contains("[T][ ] read book"));
         assertTrue(response.contains("Now you have 1 task in the list."));
-        assertEquals("AddCommand", ekud.getCommandType());
+        assertEquals(DialogStyle.ADD, ekud.getDialogStyle());
         assertFalse(ekud.isExit());
     }
 
@@ -36,7 +37,7 @@ public class EkudTest {
         Ekud ekud = newChatbot();
         String response = ekud.getResponse("blah");
         assertTrue(response.contains("I don't recognize that command"));
-        assertEquals("", ekud.getCommandType());
+        assertEquals(DialogStyle.NONE, ekud.getDialogStyle());
         assertFalse(ekud.isExit());
     }
 
@@ -62,12 +63,12 @@ public class EkudTest {
         String marked = ekud.getResponse("mark 1");
         assertTrue(marked.contains("Nice! I've marked this task as done:"));
         assertTrue(marked.contains("[T][X] read book"));
-        assertEquals("ChangeMarkCommand", ekud.getCommandType());
+        assertEquals(DialogStyle.CHANGE_MARK, ekud.getDialogStyle());
 
         String deleted = ekud.getResponse("delete 1");
         assertTrue(deleted.contains("Noted. I've removed this task:"));
         assertTrue(deleted.contains("Now you have 0 tasks in the list."));
-        assertEquals("DeleteCommand", ekud.getCommandType());
+        assertEquals(DialogStyle.DELETE, ekud.getDialogStyle());
         assertEquals("Your task list is empty.", ekud.getResponse("list"));
     }
 

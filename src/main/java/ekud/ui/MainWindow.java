@@ -48,7 +48,7 @@ public class MainWindow extends AnchorPane {
         assert ekud != null : "Chatbot must be injected before the window is used";
         this.ekud = ekud;
         dialogContainer.getChildren().add(
-                DialogBox.getEkudDialog(ekud.getWelcomeMessage(), ekudImage, ""));
+                DialogBox.getEkudDialog(ekud.getWelcomeMessage(), ekudImage, DialogStyle.NONE));
     }
 
     /**
@@ -68,7 +68,7 @@ public class MainWindow extends AnchorPane {
         String response = ekud.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getEkudDialog(response, ekudImage, ekud.getCommandType()));
+                DialogBox.getEkudDialog(response, ekudImage, ekud.getDialogStyle()));
         userInput.clear();
 
         if (ekud.isExit()) {

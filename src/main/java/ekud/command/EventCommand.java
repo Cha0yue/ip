@@ -6,8 +6,6 @@ import ekud.storage.Storage;
 import ekud.task.Event;
 import ekud.task.Task;
 import ekud.task.TaskDateTime;
-import ekud.task.TaskList;
-import ekud.ui.Ui;
 
 /**
  * Adds an {@link Event} to the task list.
@@ -15,6 +13,8 @@ import ekud.ui.Ui;
 public class EventCommand implements TaskCreatingCommand {
     private static final String FLAG_FROM = "/from";
     private static final String FLAG_TO = "/to";
+    private static final String EVENT_USAGE =
+            "e.g. event meeting /from 2019-12-02 1400 /to 2019-12-02 1600.";
 
     private final String description;
     private final TaskDateTime from;
@@ -46,19 +46,41 @@ public class EventCommand implements TaskCreatingCommand {
         if (arguments.isBlank()) {
             throw new EkudException("The description of an event cannot be empty.");
         }
+
         int fromIndex = Parser.indexOfFlag(arguments, FLAG_FROM);
         int toIndex = Parser.indexOfFlag(arguments, FLAG_TO);
-        if (fromIndex < 0 || toIndex < 0) {
-            throw new EkudException(
-                    "Please provide both /from and /to, e.g. event meeting /from 2019-12-02 1400 /to 2019-12-02 1600.");
-        }
-        if (fromIndex > toIndex) {
-            throw new EkudException(
-                    "Please put /from before /to, e.g. event meeting /from 2019-12-02 1400 /to 2019-12-02 1600.");
-        }
+        requireFlagsInOrder(fromIndex, toIndex);
+
         String description = arguments.substring(0, fromIndex).trim();
         String fromText = arguments.substring(fromIndex + FLAG_FROM.length(), toIndex).trim();
         String toText = arguments.substring(toIndex + FLAG_TO.length()).trim();
+        requireEventPartsPresent(description, fromText, toText);
+
+        TaskDateTime from = TaskDateTime.parse(fromText);
+        TaskDateTime to = TaskDateTime.parse(toText);
+        if (isEndBeforeStart(from, to)) {
+            throw new EkudException("The event end date/time cannot be before the start date/time.");
+        }
+        return new EventCommand(description, from, to);
+    }
+
+    /**
+     * Rejects missing flags or {@code /to} appearing before {@code /from}.
+     */
+    private static void requireFlagsInOrder(int fromIndex, int toIndex) throws EkudException {
+        if (fromIndex < 0 || toIndex < 0) {
+            throw new EkudException("Please provide both /from and /to, " + EVENT_USAGE);
+        }
+        if (fromIndex > toIndex) {
+            throw new EkudException("Please put /from before /to, " + EVENT_USAGE);
+        }
+    }
+
+    /**
+     * Rejects a blank description, start, or end after the flags have been split out.
+     */
+    private static void requireEventPartsPresent(String description, String fromText, String toText)
+            throws EkudException {
         if (description.isEmpty()) {
             throw new EkudException("The description of an event cannot be empty.");
         }
@@ -68,12 +90,6 @@ public class EventCommand implements TaskCreatingCommand {
         if (toText.isEmpty()) {
             throw new EkudException("Please provide an end date/time after /to.");
         }
-        TaskDateTime from = TaskDateTime.parse(fromText);
-        TaskDateTime to = TaskDateTime.parse(toText);
-        if (isEndBeforeStart(from, to)) {
-            throw new EkudException("The event end date/time cannot be before the start date/time.");
-        }
-        return new EventCommand(description, from, to);
     }
 
     /**
@@ -103,21 +119,5 @@ public class EventCommand implements TaskCreatingCommand {
     @Override
     public Task createTask() {
         return new Event(description, from, to);
-    }
-
-    /**
-     * Adds the event to {@code tasks}, saves the list, and shows a confirmation.
-     *
-     * @param tasks   the list to add to
-     * @param ui      used to show the confirmation
-     * @param storage used to persist the updated list
-     * @throws EkudException if the list cannot be saved
-     */
-    @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws EkudException {
-        Task task = createTask();
-        tasks.add(task);
-        storage.save(tasks);
-        ui.showAdded(task, tasks.size());
     }
 }

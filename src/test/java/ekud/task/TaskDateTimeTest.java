@@ -57,6 +57,11 @@ public class TaskDateTimeTest {
     }
 
     @Test
+    public void toDisplayDate_usesSameFormAsDateOnlyTasks() {
+        assertEquals("Dec 02 2019", TaskDateTime.toDisplayDate(LocalDate.of(2019, 12, 2)));
+    }
+
+    @Test
     public void parse_blank_throwsEkudException() {
         assertThrows(EkudException.class, () -> TaskDateTime.parse(""));
         assertThrows(EkudException.class, () -> TaskDateTime.parse("   "));
