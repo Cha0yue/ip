@@ -209,6 +209,28 @@ public class Ui {
     }
 
     /**
+     * Prints a short guide to the supported commands and date formats.
+     */
+    public void showHelp() {
+        display("""
+                Here are the commands I understand:
+                  todo DESCRIPTION
+                  deadline DESCRIPTION /by DATE
+                  event DESCRIPTION /from START /to END
+                  list
+                  on DATE
+                  find KEYWORD
+                  mark NUMBER
+                  unmark NUMBER
+                  delete NUMBER
+                  help
+                  bye
+
+                Dates: 2019-12-02 or 2/12/2019, optionally with a time (1800 or 18:00).
+                Type help anytime to see this guide again.""");
+    }
+
+    /**
      * Prints a user-facing error, such as invalid command arguments.
      *
      * @param message explanation of what went wrong
@@ -255,7 +277,7 @@ public class Ui {
         body.append("\n\n")
                 .append("Add a task with todo, deadline, or event.\n")
                 .append("Other commands: list, on <date>, find <keyword>, mark <number>, ")
-                .append("unmark <number>, delete <number>, bye.");
+                .append("unmark <number>, delete <number>, help, bye.");
         return body.toString();
     }
 

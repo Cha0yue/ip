@@ -17,6 +17,7 @@ public enum CommandType {
     MARK("mark", MarkCommand::parse),
     UNMARK("unmark", UnmarkCommand::parse),
     DELETE("delete", DeleteCommand::parse),
+    HELP("help", HelpCommand::parse),
     BYE("bye", ByeCommand::parse);
 
     /**
