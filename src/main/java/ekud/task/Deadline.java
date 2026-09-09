@@ -16,6 +16,8 @@ public class Deadline extends Task {
      */
     public Deadline(String description, TaskDateTime by) {
         super(description);
+        // Parser parses /by before constructing; a missing date is a programming error.
+        assert by != null : "Deadline due date/time must be provided";
         this.by = by;
     }
 

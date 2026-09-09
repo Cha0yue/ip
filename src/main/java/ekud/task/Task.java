@@ -18,6 +18,9 @@ public abstract class Task {
      * @param description text describing the task
      */
     protected Task(String description) {
+        // Parser (and Storage via Parser) reject blank descriptions before construction.
+        assert description != null && !description.isBlank()
+                : "Task description should already be validated by the parser";
         this.description = description;
         this.isDone = false;
     }

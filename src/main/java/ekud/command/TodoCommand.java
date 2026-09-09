@@ -57,6 +57,10 @@ public class TodoCommand implements TaskCreatingCommand {
      */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws EkudException {
+        // Ekud always passes the objects it constructed; a null collaborator is a bug.
+        assert tasks != null : "Task list must be provided to execute a command";
+        assert ui != null : "Ui must be provided to execute a command";
+        assert storage != null : "Storage must be provided to execute a command";
         Task task = createTask();
         tasks.add(task);
         storage.save(tasks);

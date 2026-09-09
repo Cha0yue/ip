@@ -48,6 +48,9 @@ public class Ekud {
      * @param storage where the task list is persisted
      */
     public Ekud(Ui ui, Storage storage) {
+        // Callers (GUI, CLI, tests) must supply both collaborators; a null here is a bug.
+        assert ui != null : "Ui must be provided";
+        assert storage != null : "Storage must be provided";
         this.ui = ui;
         this.storage = storage;
         this.isExit = false;
@@ -88,6 +91,8 @@ public class Ekud {
             String input = ui.readCommand();
             try {
                 Command command = Parser.parse(input);
+                // Parser throws on invalid input; a null return would be a bug in Parser, not the user.
+                assert command != null : "Parser.parse returned null instead of a Command";
                 command.execute(tasks, ui, storage);
                 isRunning = !command.isExit();
             } catch (EkudException e) {
@@ -122,6 +127,8 @@ public class Ekud {
     public String getResponse(String input) {
         try {
             Command command = Parser.parse(input);
+            // Parser throws on invalid input; a null return would be a bug in Parser, not the user.
+            assert command != null : "Parser.parse returned null instead of a Command";
             command.execute(tasks, ui, storage);
             isExit = command.isExit();
             lastCommandType = toDialogStyle(command);
@@ -160,6 +167,8 @@ public class Ekud {
      * @return a style key, or an empty string
      */
     private static String toDialogStyle(Command command) {
+        // getResponse calls this only after Parser.parse succeeds, so command must exist.
+        assert command != null : "toDialogStyle received a null command";
         if (command instanceof TaskCreatingCommand) {
             return "AddCommand";
         }

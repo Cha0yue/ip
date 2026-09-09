@@ -45,6 +45,8 @@ public class Storage {
      * @param filePath path to the save file, for example {@code data/ekud.txt}
      */
     public Storage(String filePath) {
+        // The default path and tests always pass a real location; a blank path is a caller bug.
+        assert filePath != null && !filePath.isBlank() : "Save file path must be provided";
         this.path = Path.of(filePath);
     }
 
@@ -84,6 +86,8 @@ public class Storage {
      * @throws EkudException if the file cannot be written
      */
     public void save(TaskList tasks) throws EkudException {
+        // Commands only save after a successful change to the in-memory list.
+        assert tasks != null : "Cannot save a null task list";
         try {
             Path parent = path.getParent();
             if (parent != null) {
@@ -136,6 +140,8 @@ public class Storage {
                 return null;
             }
             Task task = creating.createTask();
+            // Add-command parse methods always build a task or throw before returning.
+            assert task != null : "A task-creating command should always produce a task";
             if (doneFlag.equals(DONE)) {
                 task.markAsDone();
             }
