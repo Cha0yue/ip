@@ -26,12 +26,17 @@ public class Parser {
         String[] parts = trimmed.split("\\s+", 2);
         String commandWord = parts[0];
         String arguments = parts.length > 1 ? parts[1] : "";
+        // Blank input was already rejected, so splitting must yield a non-empty first token.
+        assert !commandWord.isEmpty() : "Command word should be non-empty after trimming";
 
         CommandType commandType = CommandType.fromKeyword(commandWord);
         if (commandType == null) {
             throw new EkudException("I don't recognize that command. Try " + CommandType.getHelpList() + ".");
         }
-        return commandType.parse(arguments);
+        Command command = commandType.parse(arguments);
+        // Each CommandType maps to a parse method that returns a command or throws.
+        assert command != null : "A recognized command should produce a Command object";
+        return command;
     }
 
     /**

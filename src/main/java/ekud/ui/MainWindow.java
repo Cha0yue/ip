@@ -44,6 +44,8 @@ public class MainWindow extends AnchorPane {
      * @param ekud chatbot instance used to generate replies
      */
     public void setEkud(Ekud ekud) {
+        // Main.java injects the chatbot after loading the FXML; the window cannot reply without it.
+        assert ekud != null : "Chatbot must be injected before the window is used";
         this.ekud = ekud;
         dialogContainer.getChildren().add(
                 DialogBox.getEkudDialog(ekud.getWelcomeMessage(), ekudImage, DialogStyle.NONE));
@@ -61,6 +63,8 @@ public class MainWindow extends AnchorPane {
             return;
         }
 
+        // setEkud is called when the window is created, before any user input.
+        assert ekud != null : "setEkud must be called before handling input";
         String response = ekud.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
